@@ -8,6 +8,7 @@ import {
   AcademicCapIcon,
 } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
+import { notesAPI, aiAPI } from "../services/api";
 
 interface Note {
   id?: string;
@@ -53,26 +54,30 @@ const NoteEditor: React.FC = () => {
   const loadNote = useCallback(async () => {
     setLoading(true);
     try {
-      // TODO: Replace with actual API call
-      // const response = await api.get(`/notes/${id}`);
-      // setNote(response.data);
-
-      // Simulate loading
-      setTimeout(() => {
-        setNote({
-          id: id,
-          title: "Sample Note",
-          content: "This is a sample note content...",
-          subject: "Mathematics",
-          tags: ["algebra", "calculus"],
-          isBookmarked: true,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        });
-        setLoading(false);
-      }, 1000);
+      const response = await notesAPI.getById(id!);
+      const noteData = response.data.note; // Access the note property correctly
+      setNote({
+        id: noteData._id,
+        title: noteData.title || "",
+        content: noteData.content || "",
+        subject: noteData.subject || "",
+        tags: noteData.tags || [],
+        isBookmarked: noteData.isBookmarked || false,
+        createdAt: noteData.createdAt,
+        updatedAt: noteData.updatedAt,
+      });
     } catch (error) {
+      console.error("Failed to load note:", error);
       toast.error("Failed to load note");
+      // Reset to default state on error
+      setNote({
+        title: "",
+        content: "",
+        subject: "",
+        tags: [],
+        isBookmarked: false,
+      });
+    } finally {
       setLoading(false);
     }
   }, [id]);
@@ -81,71 +86,93 @@ const NoteEditor: React.FC = () => {
     if (id && id !== "new") {
       loadNote();
     }
-  }, [loadNote]);
+  }, [loadNote, id]);
 
   const handleSave = async () => {
-    if (!note.title.trim() || !note.content.trim()) {
+    if (!note || !note.title?.trim() || !note.content?.trim()) {
       toast.error("Please fill in both title and content");
       return;
     }
 
     setSaving(true);
     try {
-      // TODO: Replace with actual API call
-      // const response = await api.post('/notes', note);
-      // or await api.put(`/notes/${id}`, note);
+      const noteData = {
+        title: note.title,
+        content: note.content,
+        subject: note.subject,
+        tags: note.tags,
+      };
 
-      // Simulate saving
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      toast.success("Note saved successfully!");
       if (!id || id === "new") {
+        // Create new note
+        await notesAPI.create(noteData);
+        toast.success("Note created successfully!");
         navigate("/notes");
+      } else {
+        // Update existing note
+        await notesAPI.update(id, noteData);
+        toast.success("Note updated successfully!");
       }
-    } catch (error) {
-      toast.error("Failed to save note");
+    } catch (error: any) {
+      console.error("Save error:", error);
+      toast.error(error.response?.data?.error || "Failed to save note");
     } finally {
       setSaving(false);
     }
   };
 
   const handleAIAssist = async (action: string) => {
+    if (!note || !note.content) {
+      toast.error("Please add some content to your note first");
+      return;
+    }
+
     setAiLoading(true);
     try {
-      // TODO: Replace with actual AI API call
-      // const response = await api.post('/ai/assist', { action, content: note.content });
-
-      // Simulate AI processing
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       let enhancedContent = note.content;
+
       switch (action) {
         case "summarize":
+          const aiResponse = await aiAPI.summarize({
+            content: note.content,
+            style: "concise",
+          });
           enhancedContent =
-            "AI Summary: " + note.content.substring(0, 100) + "...";
+            "## AI Summary\n\n" +
+            aiResponse.data.summary +
+            "\n\n---\n\n" +
+            note.content;
           break;
         case "expand":
+          // For now, use a simple expansion
           enhancedContent =
             note.content +
-            "\n\nAI Enhanced Content: Additional details and explanations...";
+            "\n\n## AI Enhanced Content\n\nThis section provides additional context and explanations for the key concepts mentioned above...";
           break;
         case "structure":
           enhancedContent =
-            "# " + note.title + "\n\n## Key Points\n\n" + note.content;
+            "# " +
+            note.title +
+            "\n\n## Key Points\n\n" +
+            note.content +
+            "\n\n## Summary\n\n" +
+            note.content.substring(0, 200) +
+            "...";
           break;
       }
 
       setNote((prev) => ({ ...prev, content: enhancedContent }));
       toast.success("AI enhancement applied!");
-    } catch (error) {
-      toast.error("AI assistance failed");
+    } catch (error: any) {
+      console.error("AI assist error:", error);
+      toast.error(error.response?.data?.error || "AI assistance failed");
     } finally {
       setAiLoading(false);
     }
   };
 
   const addTag = () => {
-    if (newTag.trim() && !note.tags.includes(newTag.trim())) {
+    if (newTag.trim() && note && !note.tags.includes(newTag.trim())) {
       setNote((prev) => ({
         ...prev,
         tags: [...prev.tags, newTag.trim()],

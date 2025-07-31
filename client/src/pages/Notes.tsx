@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   PlusIcon,
@@ -8,43 +8,44 @@ import {
   CalendarIcon,
   BookmarkIcon,
 } from "@heroicons/react/24/outline";
+import { notesAPI } from "../services/api";
+import toast from "react-hot-toast";
+
+interface Note {
+  _id: string;
+  title: string;
+  content: string;
+  subject: string;
+  tags: string[];
+  isBookmarked?: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
 
 const Notes: React.FC = () => {
-  const [notes] = useState([
-    {
-      id: "1",
-      title: "Calculus Fundamentals",
-      content: "Introduction to limits, derivatives, and integrals...",
-      subject: "Mathematics",
-      tags: ["calculus", "derivatives", "limits"],
-      isBookmarked: true,
-      createdAt: "2024-01-15T10:30:00Z",
-      updatedAt: "2024-01-20T14:45:00Z",
-    },
-    {
-      id: "2",
-      title: "Quantum Physics Notes",
-      content: "Wave-particle duality and the uncertainty principle...",
-      subject: "Physics",
-      tags: ["quantum", "physics", "wave-particle"],
-      isBookmarked: false,
-      createdAt: "2024-01-18T09:15:00Z",
-      updatedAt: "2024-01-19T16:20:00Z",
-    },
-    {
-      id: "3",
-      title: "Organic Chemistry Reactions",
-      content: "Common organic reactions and mechanisms...",
-      subject: "Chemistry",
-      tags: ["organic", "reactions", "mechanisms"],
-      isBookmarked: true,
-      createdAt: "2024-01-12T11:00:00Z",
-      updatedAt: "2024-01-17T13:30:00Z",
-    },
-  ]);
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("All");
+
+  // Load notes from API
+  useEffect(() => {
+    const loadNotes = async () => {
+      try {
+        setLoading(true);
+        const response = await notesAPI.getAll();
+        setNotes(response.data.notes || []);
+      } catch (error) {
+        console.error("Failed to load notes:", error);
+        toast.error("Failed to load notes");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadNotes();
+  }, []);
 
   const subjects = [
     "All",
@@ -57,11 +58,11 @@ const Notes: React.FC = () => {
   ];
 
   // Filter notes based on search term and selected subject
-  const filteredNotes = notes.filter((note) => {
+  const filteredNotes = notes.filter((note: Note) => {
     const matchesSearch =
       note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       note.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      note.tags.some((tag) =>
+      note.tags.some((tag: string) =>
         tag.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
@@ -130,12 +131,19 @@ const Notes: React.FC = () => {
         </div>
       </div>
 
-      {/* Notes Grid */}
-      {filteredNotes.length > 0 ? (
+      {/* Loading State */}
+      {loading ? (
+        <div className="card text-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            Loading notes...
+          </h3>
+        </div>
+      ) : filteredNotes.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredNotes.map((note) => (
             <div
-              key={note.id}
+              key={note._id}
               className="card hover:shadow-lg transition-shadow cursor-pointer"
             >
               <div className="p-6">
@@ -185,7 +193,7 @@ const Notes: React.FC = () => {
 
                 <div className="flex items-center justify-between">
                   <Link
-                    to={`/notes/${note.id}`}
+                    to={`/notes/${note._id}`}
                     className="text-primary-600 hover:text-primary-700 text-sm font-medium"
                   >
                     Edit Note

@@ -59,9 +59,12 @@ router.post("/register", async (req, res) => {
 
     await user.save();
 
-    // Send verification email (optional for development)
-    if (process.env.SMTP_HOST && process.env.NODE_ENV === "production") {
+    // Send verification email
+    try {
       await sendVerificationEmail(user.email, emailVerificationToken);
+    } catch (error) {
+      console.error("Error sending verification email:", error);
+      // Don't fail the request, just log the error
     }
 
     // Generate JWT token
@@ -175,8 +178,11 @@ router.post("/resend-verification", auth, async (req, res) => {
     await user.save();
 
     // Send verification email
-    if (process.env.SMTP_HOST) {
+    try {
       await sendVerificationEmail(user.email, emailVerificationToken);
+    } catch (error) {
+      console.error("Error sending verification email:", error);
+      // Don't fail the request, just log the error
     }
 
     res.json({ message: "Verification email sent" });
@@ -203,8 +209,11 @@ router.post("/forgot-password", async (req, res) => {
     await user.save();
 
     // Send reset email
-    if (process.env.SMTP_HOST) {
+    try {
       await sendPasswordResetEmail(user.email, resetToken);
+    } catch (error) {
+      console.error("Error sending password reset email:", error);
+      // Don't fail the request, just log the error
     }
 
     res.json({ message: "Password reset email sent" });

@@ -6,6 +6,9 @@ import Sidebar from "./components/layout/Sidebar";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import VerifyEmail from "./pages/auth/VerifyEmail";
+import ForgotPassword from "./pages/auth/ForgotPassword";
+import ResetPassword from "./pages/auth/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import Notes from "./pages/Notes";
 import NoteEditor from "./pages/NoteEditor";
@@ -34,6 +37,9 @@ const App: React.FC = () => {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route
           path="/university-partnership"

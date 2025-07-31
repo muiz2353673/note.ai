@@ -15,6 +15,26 @@ if (process.env.OPENAI_API_KEY) {
   });
 }
 
+// Function to get the best available GPT model based on subscription
+const getBestModel = (user) => {
+  // Check if we have a valid API key
+  if (!openai || process.env.OPENAI_API_KEY === "your_openai_api_key_here") {
+    return "fallback";
+  }
+
+  // Premium users get access to GPT-4 models
+  if (
+    user.subscription.plan === "university" ||
+    user.subscription.plan === "student"
+  ) {
+    // Try GPT-4o first (most capable and cost-effective)
+    return "gpt-4o";
+  }
+
+  // Free users get GPT-3.5-turbo
+  return "gpt-3.5-turbo";
+};
+
 // Middleware to check feature access
 const checkFeatureAccess = (feature) => async (req, res, next) => {
   try {
@@ -72,16 +92,35 @@ router.post(
       const prompt = `${stylePrompts[style]}\n\n${content}`;
 
       // Check if OpenAI is available
-      if (!openai) {
-        return res.status(503).json({
-          error:
-            "AI services are temporarily unavailable. Please check your OpenAI API configuration.",
+      if (
+        !openai ||
+        process.env.OPENAI_API_KEY === "your_openai_api_key_here"
+      ) {
+        // Use fallback response when OpenAI is not configured
+        const fallbackResult = fallbackResponses.summarize(content);
+        return res.json({
+          summary: fallbackResult.summary,
+          model: fallbackResult.model,
+          isFallback: fallbackResult.isFallback,
         });
       }
 
-      // Call OpenAI API - Use gpt-3.5-turbo for all users since GPT-4 might not be available
+      // Get the best available model for this user
+      const model = getBestModel(user);
+
+      // If fallback is needed, use it
+      if (model === "fallback") {
+        const fallbackResult = fallbackResponses.summarize(content);
+        return res.json({
+          summary: fallbackResult.summary,
+          model: fallbackResult.model,
+          isFallback: fallbackResult.isFallback,
+        });
+      }
+
+      // Call OpenAI API with the best available model
       const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: model,
         messages: [
           {
             role: "system",
@@ -117,7 +156,7 @@ router.post(
 
       res.json({
         summary,
-        model: "gpt-3.5-turbo",
+        model: model,
         usage: user.usage.totalSummaries,
         limit: user.subscription.features.aiSummaries,
       });
@@ -190,15 +229,46 @@ router.post(
     ${content}`;
 
       // Check if OpenAI is available
-      if (!openai) {
-        return res.status(503).json({
-          error:
-            "AI services are temporarily unavailable. Please check your OpenAI API configuration.",
+      if (
+        !openai ||
+        process.env.OPENAI_API_KEY === "your_openai_api_key_here"
+      ) {
+        // Use fallback response when OpenAI is not configured
+        const fallbackResult = fallbackResponses.flashcards(content);
+
+        // Increment usage
+        await user.incrementUsage("flashcardGeneration");
+
+        return res.json({
+          flashcards: fallbackResult.flashcards,
+          model: fallbackResult.model,
+          usage: user.usage.totalFlashcards,
+          limit: user.subscription.features.flashcardGeneration,
+          isFallback: fallbackResult.isFallback,
+        });
+      }
+
+      // Get the best available model for this user
+      const model = getBestModel(user);
+
+      // If fallback is needed, use it
+      if (model === "fallback") {
+        const fallbackResult = fallbackResponses.flashcards(content);
+
+        // Increment usage
+        await user.incrementUsage("flashcardGeneration");
+
+        return res.json({
+          flashcards: fallbackResult.flashcards,
+          model: fallbackResult.model,
+          usage: user.usage.totalFlashcards,
+          limit: user.subscription.features.flashcardGeneration,
+          isFallback: fallbackResult.isFallback,
         });
       }
 
       const completion = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: model,
         messages: [
           {
             role: "system",
@@ -247,7 +317,7 @@ router.post(
 
       res.json({
         flashcards,
-        model: "gpt-3.5-turbo",
+        model: model,
         usage: user.usage.totalFlashcards,
         limit: user.subscription.features.flashcardGeneration,
       });
@@ -318,10 +388,25 @@ router.post(
     4. Common pitfalls to avoid`;
 
       // Check if OpenAI is available
-      if (!openai) {
-        return res.status(503).json({
-          error:
-            "AI services are temporarily unavailable. Please check your OpenAI API configuration.",
+      if (
+        !openai ||
+        process.env.OPENAI_API_KEY === "your_openai_api_key_here"
+      ) {
+        // Use fallback response when OpenAI is not configured
+        const fallbackResult = fallbackResponses.assignment(
+          topic,
+          requirements
+        );
+
+        // Increment usage
+        await user.incrementUsage("assignmentHelp");
+
+        return res.json({
+          assignmentHelp: fallbackResult.assignmentHelp,
+          model: fallbackResult.model,
+          usage: user.usage.totalAssignments,
+          limit: user.subscription.features.assignmentHelp,
+          isFallback: fallbackResult.isFallback,
         });
       }
 
@@ -429,10 +514,27 @@ router.post(
     Please provide only the formatted citation, no additional text.`;
 
       // Check if OpenAI is available
-      if (!openai) {
-        return res.status(503).json({
-          error:
-            "AI services are temporarily unavailable. Please check your OpenAI API configuration.",
+      if (
+        !openai ||
+        process.env.OPENAI_API_KEY === "your_openai_api_key_here"
+      ) {
+        // Use fallback response when OpenAI is not configured
+        const fallbackResult = fallbackResponses.cite(
+          title,
+          authors,
+          year,
+          style
+        );
+
+        // Increment usage
+        await req.userData.incrementUsage("citations");
+
+        return res.json({
+          citation: fallbackResult.citation,
+          style,
+          usage: req.userData.usage.totalCitations,
+          limit: req.userData.subscription.features.citations,
+          isFallback: fallbackResult.isFallback,
         });
       }
 
@@ -456,13 +558,13 @@ router.post(
       const citation = completion.choices[0].message.content.trim();
 
       // Increment usage
-      await user.incrementUsage("citations");
+      await req.userData.incrementUsage("citations");
 
       res.json({
         citation,
         style,
-        usage: user.usage.totalCitations,
-        limit: user.subscription.features.citations,
+        usage: req.userData.usage.totalCitations,
+        limit: req.userData.subscription.features.citations,
       });
     } catch (error) {
       console.error("Citation generation error:", error);

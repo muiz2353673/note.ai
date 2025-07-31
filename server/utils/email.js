@@ -2,7 +2,23 @@ const nodemailer = require("nodemailer");
 
 // Create transporter
 const createTransporter = () => {
-  return nodemailer.createTransporter({
+  console.log("Creating email transporter...");
+  console.log("SMTP_HOST:", process.env.SMTP_HOST);
+  console.log("SMTP_PORT:", process.env.SMTP_PORT);
+  console.log("SMTP_USER:", process.env.SMTP_USER ? "Set" : "Not set");
+  console.log("SMTP_PASS:", process.env.SMTP_PASS ? "Set" : "Not set");
+
+  // For development, if no SMTP is configured, return null
+  if (
+    !process.env.SMTP_HOST ||
+    !process.env.SMTP_USER ||
+    !process.env.SMTP_PASS
+  ) {
+    console.log("SMTP not configured, skipping email sending");
+    return null;
+  }
+
+  return nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
     secure: process.env.SMTP_PORT === "465",
@@ -17,6 +33,16 @@ const createTransporter = () => {
 const sendVerificationEmail = async (email, token) => {
   try {
     const transporter = createTransporter();
+
+    // If no transporter (SMTP not configured), just log the verification URL
+    if (!transporter) {
+      const verificationUrl = `${
+        process.env.FRONTEND_URL || "http://localhost:3000"
+      }/verify-email?token=${token}`;
+      console.log(`📧 Verification email would be sent to ${email}`);
+      console.log(`🔗 Verification URL: ${verificationUrl}`);
+      return;
+    }
 
     const verificationUrl = `${
       process.env.FRONTEND_URL || "http://localhost:3000"
@@ -81,6 +107,16 @@ const sendVerificationEmail = async (email, token) => {
 const sendPasswordResetEmail = async (email, token) => {
   try {
     const transporter = createTransporter();
+
+    // If no transporter (SMTP not configured), just log the reset URL
+    if (!transporter) {
+      const resetUrl = `${
+        process.env.FRONTEND_URL || "http://localhost:3000"
+      }/reset-password?token=${token}`;
+      console.log(`📧 Password reset email would be sent to ${email}`);
+      console.log(`🔗 Reset URL: ${resetUrl}`);
+      return;
+    }
 
     const resetUrl = `${
       process.env.FRONTEND_URL || "http://localhost:3000"
@@ -151,6 +187,12 @@ const sendPasswordResetEmail = async (email, token) => {
 const sendWelcomeEmail = async (email, firstName) => {
   try {
     const transporter = createTransporter();
+    
+    // If no transporter (SMTP not configured), just log the welcome message
+    if (!transporter) {
+      console.log(`📧 Welcome email would be sent to ${email} (${firstName})`);
+      return;
+    }
 
     const mailOptions = {
       from: `"Noted.AI" <${process.env.SMTP_USER}>`,

@@ -45,6 +45,13 @@ export const authAPI = {
   login: (data: any) => api.post("/auth/login", data),
   refresh: () => api.post("/auth/refresh"),
   logout: () => api.post("/auth/logout"),
+  verifyEmail: (data: any) => api.post("/auth/verify-email", data),
+  resendVerification: () => api.post("/auth/resend-verification"),
+  forgotPassword: (data: any) => api.post("/auth/forgot-password", data),
+  resetPassword: (data: any) => api.post("/auth/reset-password", data),
+  getMe: () => api.get("/auth/me"),
+  updateProfile: (data: any) => api.put("/auth/profile", data),
+  changePassword: (data: any) => api.put("/auth/change-password", data),
 };
 
 // Notes API
