@@ -162,11 +162,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [x] Email notification system
 - [x] Real-time notification system
 - [x] User profile and settings management
+- [x] Backend API integration with OpenAI
+- [x] Payment processing with Stripe
 
 ### In Progress 🚧
-- [x] Backend API integration with OpenAI
+
 - [x] Database models and data persistence
-- [x] Payment processing with Stripe
 - [x] Email notifications and user management
 
 ### Planned 📋
