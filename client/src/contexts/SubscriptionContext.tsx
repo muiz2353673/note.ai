@@ -27,6 +27,7 @@ interface Usage {
   totalSummaries: number;
   totalFlashcards: number;
   totalAssignments: number;
+  totalCitations: number;
   lastActive: string;
 }
 
@@ -66,11 +67,38 @@ export const SubscriptionProvider: React.FC<SubscriptionProviderProps> = ({
 
   const fetchSubscriptionStatus = async () => {
     try {
+      console.log("Fetching subscription status...");
       const response = await axios.get("/api/subscriptions/status");
-      setSubscription(response.data.subscription);
-      setUsage(response.data.usage);
+      console.log("Subscription response:", response.data);
+
+      if (response.data.subscription && response.data.usage) {
+        setSubscription(response.data.subscription);
+        setUsage(response.data.usage);
+      } else {
+        console.warn("Missing subscription or usage data in response");
+        throw new Error("Invalid response structure");
+      }
     } catch (error) {
       console.error("Failed to fetch subscription status:", error);
+      // Set default values if API fails
+      setSubscription({
+        plan: "free",
+        status: "active",
+        features: {
+          aiSummaries: 5,
+          flashcardGeneration: 3,
+          assignmentHelp: 2,
+          citations: 10,
+        },
+      });
+      setUsage({
+        totalNotes: 0,
+        totalSummaries: 0,
+        totalFlashcards: 0,
+        totalAssignments: 0,
+        totalCitations: 0,
+        lastActive: new Date().toISOString(),
+      });
     } finally {
       setLoading(false);
     }

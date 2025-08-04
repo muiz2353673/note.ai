@@ -129,23 +129,62 @@ router.post("/create", auth, async (req, res) => {
 // Get subscription status
 router.get("/status", auth, async (req, res) => {
   try {
+    console.log("Fetching subscription status for user:", req.user.userId);
     const user = await User.findById(req.user.userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (user.subscription.stripeSubscriptionId) {
-      const stripeSubscription = await stripe.subscriptions.retrieve(
-        user.subscription.stripeSubscriptionId
-      );
-
-      // Update subscription status
-      user.subscription.status = stripeSubscription.status;
-      user.subscription.currentPeriodEnd = new Date(
-        stripeSubscription.current_period_end * 1000
-      );
+    // Ensure user has subscription data
+    if (!user.subscription) {
+      user.subscription = {
+        plan: "free",
+        status: "active",
+        features: {
+          aiSummaries: 5,
+          flashcardGeneration: 3,
+          assignmentHelp: 2,
+          citations: 10,
+        },
+      };
       await user.save();
     }
+
+    // Ensure user has usage data
+    if (!user.usage) {
+      user.usage = {
+        totalNotes: 0,
+        totalSummaries: 0,
+        totalFlashcards: 0,
+        totalAssignments: 0,
+        totalCitations: 0,
+        lastActive: new Date(),
+      };
+      await user.save();
+    }
+
+    if (user.subscription.stripeSubscriptionId) {
+      try {
+        const stripeSubscription = await stripe.subscriptions.retrieve(
+          user.subscription.stripeSubscriptionId
+        );
+
+        // Update subscription status
+        user.subscription.status = stripeSubscription.status;
+        user.subscription.currentPeriodEnd = new Date(
+          stripeSubscription.current_period_end * 1000
+        );
+        await user.save();
+      } catch (stripeError) {
+        console.error("Stripe error:", stripeError);
+        // Continue with local subscription data if Stripe fails
+      }
+    }
+
+    console.log("Returning subscription data:", {
+      subscription: user.subscription,
+      usage: user.usage,
+    });
 
     res.json({
       subscription: user.subscription,
