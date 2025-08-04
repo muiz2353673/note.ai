@@ -9,6 +9,7 @@ client/.env
 
 # Dependencies
 node_modules/
+node_modules/.cache/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
