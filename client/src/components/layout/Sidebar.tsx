@@ -33,31 +33,36 @@ const Sidebar: React.FC = () => {
   const getNavLinkClass = (isActive: boolean) => {
     return `flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
       isActive
-        ? "bg-primary-100 text-primary-700" // Active state styling
-        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900" // Inactive state styling
+        ? "bg-primary-100 text-primary-700"
+        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
     }`;
   };
 
   return (
-    <div className="w-64 bg-white shadow-sm border-r border-gray-200 min-h-screen"> {/* Main sidebar container */}
-      <div className="p-6"> {/* Inner padding container */}
+    <div className="w-64 bg-white shadow-sm border-r border-gray-200 min-h-screen">
+      {/* Main sidebar container */}
+      <div className="p-6">
+        {/* Inner padding container */}
         
         {/* User Information Section */}
         <div className="mb-6">
-          <div className="flex items-center space-x-3"> {/* Flex container for user info */}
+          <div className="flex items-center space-x-3">
+            {/* Flex container for user info */}
             {/* User avatar circle with initials */}
             <div className="w-10 h-10 bg-primary-100 rounded-full flex items-center justify-center">
               <span className="text-primary-600 font-semibold">
-                {user?.firstName?.charAt(0)} {/* First letter of first name */}
-                {user?.lastName?.charAt(0)} {/* First letter of last name */}
+                {user?.firstName?.charAt(0)}
+                {user?.lastName?.charAt(0)}
               </span>
             </div>
             {/* User details */}
             <div>
-              <p className="text-sm font-medium text-gray-900"> {/* User's full name */}
+              <p className="text-sm font-medium text-gray-900">
+                {/* User's full name */}
                 {user?.firstName} {user?.lastName}
               </p>
-              <p className="text-xs text-gray-500"> {/* User's subscription plan */}
+              <p className="text-xs text-gray-500">
+                {/* User's subscription plan */}
                 {user?.subscription?.plan || 'Free'} Plan
               </p>
             </div>
@@ -65,47 +70,64 @@ const Sidebar: React.FC = () => {
         </div>
 
         {/* Main Navigation Section */}
-        <nav className="space-y-1"> {/* Navigation container with spacing */}
-          {navigation.map((item) => ( {/* Map through navigation items */}
+        <nav className="space-y-1">
+          {/* Navigation container with spacing */}
+          {navigation.map((item) => (
+            // Map through navigation items
             <NavLink
-              key={item.name} {/* Unique key for each navigation item */}
-              to={item.href} {/* Route to navigate to */}
-              className={({ isActive }) => getNavLinkClass(isActive)} {/* Dynamic styling based on active state */}
+              key={item.name}
+              to={item.href}
+              className={({ isActive }) => getNavLinkClass(isActive)}
             >
-              <item.icon className="mr-3 h-5 w-5" /> {/* Navigation icon */}
-              {item.name} {/* Navigation item name */}
+              {/* Unique key for each navigation item */}
+              <item.icon className="mr-3 h-5 w-5" />
+              {/* Navigation icon */}
+              {item.name}
+              {/* Navigation item name */}
             </NavLink>
           ))}
         </nav>
 
         {/* Usage Statistics Section */}
-        <div className="mt-8 p-4 bg-gray-50 rounded-lg"> {/* Usage stats container */}
-          <h3 className="text-sm font-medium text-gray-900 mb-3"> {/* Section title */}
+        <div className="mt-8 p-4 bg-gray-50 rounded-lg">
+          {/* Usage stats container */}
+          <h3 className="text-sm font-medium text-gray-900 mb-3">
+            {/* Section title */}
             Usage This Month
           </h3>
-          <div className="space-y-2"> {/* Stats items container */}
+          <div className="space-y-2">
+            {/* Stats items container */}
             {/* AI Summaries usage */}
             <div className="flex justify-between text-xs">
-              <span className="text-gray-600">AI Summaries</span> {/* Feature name */}
+              <span className="text-gray-600">AI Summaries</span>
+              {/* Feature name */}
               <span className="text-gray-900">
-                {user?.usage?.totalSummaries || 0} /{" "} {/* Current usage */}
-                {user?.subscription?.features?.aiSummaries || 0} {/* Usage limit */}
+                {user?.usage?.totalSummaries || 0} /{" "}
+                {/* Current usage */}
+                {user?.subscription?.features?.aiSummaries || 0}
+                {/* Usage limit */}
               </span>
             </div>
             {/* Flashcards usage */}
             <div className="flex justify-between text-xs">
-              <span className="text-gray-600">Flashcards</span> {/* Feature name */}
+              <span className="text-gray-600">Flashcards</span>
+              {/* Feature name */}
               <span className="text-gray-900">
-                {user?.usage?.totalFlashcards || 0} /{" "} {/* Current usage */}
-                {user?.subscription?.features?.flashcardGeneration || 0} {/* Usage limit */}
+                {user?.usage?.totalFlashcards || 0} /{" "}
+                {/* Current usage */}
+                {user?.subscription?.features?.flashcardGeneration || 0}
+                {/* Usage limit */}
               </span>
             </div>
             {/* Assignment help usage */}
             <div className="flex justify-between text-xs">
-              <span className="text-gray-600">Assignments</span> {/* Feature name */}
+              <span className="text-gray-600">Assignments</span>
+              {/* Feature name */}
               <span className="text-gray-900">
-                {user?.usage?.totalAssignments || 0} /{" "} {/* Current usage */}
-                {user?.subscription?.features?.assignmentHelp || 0} {/* Usage limit */}
+                {user?.usage?.totalAssignments || 0} /{" "}
+                {/* Current usage */}
+                {user?.subscription?.features?.assignmentHelp || 0}
+                {/* Usage limit */}
               </span>
             </div>
           </div>
@@ -113,32 +135,40 @@ const Sidebar: React.FC = () => {
 
         {/* Quick Actions Section */}
         <div className="mt-6">
-          <h3 className="text-sm font-medium text-gray-900 mb-3"> {/* Section title */}
+          <h3 className="text-sm font-medium text-gray-900 mb-3">
+            {/* Section title */}
             Quick Actions
           </h3>
-          <div className="space-y-2"> {/* Quick actions container */}
+          <div className="space-y-2">
+            {/* Quick actions container */}
             {/* New Note quick action */}
             <NavLink
               to="/notes/new"
-              className="flex items-center px-3 py-2 text-sm text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200" {/* Link styling */}
+              className="flex items-center px-3 py-2 text-sm text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
             >
-              <DocumentTextIcon className="mr-2 h-4 w-4" /> {/* Note icon */}
+              {/* Link styling */}
+              <DocumentTextIcon className="mr-2 h-4 w-4" />
+              {/* Note icon */}
               New Note
             </NavLink>
             {/* AI Summary quick action */}
             <NavLink
               to="/ai-features"
-              className="flex items-center px-3 py-2 text-sm text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200" {/* Link styling */}
+              className="flex items-center px-3 py-2 text-sm text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
             >
-              <LightBulbIcon className="mr-2 h-4 w-4" /> {/* AI icon */}
+              {/* Link styling */}
+              <LightBulbIcon className="mr-2 h-4 w-4" />
+              {/* AI icon */}
               AI Summary
             </NavLink>
             {/* Study Mode quick action */}
             <NavLink
               to="/flashcards"
-              className="flex items-center px-3 py-2 text-sm text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200" {/* Link styling */}
+              className="flex items-center px-3 py-2 text-sm text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
             >
-              <BookOpenIcon className="mr-2 h-4 w-4" /> {/* Study icon */}
+              {/* Link styling */}
+              <BookOpenIcon className="mr-2 h-4 w-4" />
+              {/* Study icon */}
               Study Mode
             </NavLink>
           </div>
@@ -146,11 +176,14 @@ const Sidebar: React.FC = () => {
 
         {/* University Information Section - Only shown if user has university data */}
         {user?.university && (
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg"> {/* University info container */}
-            <h3 className="text-sm font-medium text-blue-900 mb-2"> {/* Section title */}
+          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+            {/* University info container */}
+            <h3 className="text-sm font-medium text-blue-900 mb-2">
+              {/* Section title */}
               University
             </h3>
-            <p className="text-xs text-blue-700">{user.university.name}</p> {/* University name */}
+            <p className="text-xs text-blue-700">{user.university.name}</p>
+            {/* University name */}
           </div>
         )}
       </div>

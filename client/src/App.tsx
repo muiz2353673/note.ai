@@ -56,7 +56,7 @@ const App: React.FC = () => {
         <Route path="/pricing" element={<Pricing />} /> {/* Pricing information page */}
         <Route
           path="/university-partnership"
-          element={<UniversityPartnership />} {/* University partnership page */}
+          element={<UniversityPartnership />}
         />
         {/* Redirect any unknown routes to home page */}
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -145,7 +145,7 @@ const App: React.FC = () => {
             <Route path="/pricing" element={<Pricing />} /> {/* Pricing information page */}
             <Route
               path="/university-partnership"
-              element={<UniversityPartnership />} {/* University partnership page */}
+              element={<UniversityPartnership />}
             />
             
             {/* Redirect any unknown routes to dashboard for authenticated users */}

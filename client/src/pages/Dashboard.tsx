@@ -162,63 +162,86 @@ const Dashboard: React.FC = () => {
   // Show loading state if subscription data is still loading
   if (loading) {
     return (
-      <div className="space-y-6"> {/* Main container with spacing */}
+      <div className="space-y-6">
+        {/* Main container with spacing */}
         {/* Welcome section with loading message */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white"> {/* Gradient background */}
-          <h1 className="text-2xl font-bold mb-2"> {/* Welcome heading */}
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white">
+          {/* Gradient background */}
+          <h1 className="text-2xl font-bold mb-2">
+            {/* Welcome heading */}
             Welcome back, {user?.firstName}! 👋
           </h1>
-          <p className="text-blue-100">Loading your dashboard...</p> {/* Loading message */}
+          <p className="text-blue-100">Loading your dashboard...</p>
+          {/* Loading message */}
         </div>
         {/* Loading spinner */}
-        <div className="flex items-center justify-center py-12"> {/* Centered loading container */}
-          <div className="spinner"></div> {/* Loading spinner component */}
+        <div className="flex items-center justify-center py-12">
+          {/* Centered loading container */}
+          <div className="spinner"></div>
+          {/* Loading spinner component */}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6"> {/* Main dashboard container with spacing */}
+    <div className="space-y-6">
+      {/* Main dashboard container with spacing */}
       
       {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white"> {/* Gradient welcome banner */}
-        <h1 className="text-2xl font-bold mb-2"> {/* Welcome heading */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white">
+        {/* Gradient welcome banner */}
+        <h1 className="text-2xl font-bold mb-2">
+          {/* Welcome heading */}
           Welcome back, {user?.firstName}! 👋
         </h1>
-        <p className="text-blue-100"> {/* Welcome message */}
+        <p className="text-blue-100">
+          {/* Welcome message */}
           Ready to continue your academic journey? Here's what's happening with
           your studies.
         </p>
       </div>
 
       {/* Statistics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"> {/* Responsive stats grid */}
-        {stats.map((stat) => ( {/* Map through stats array */}
-          <div key={stat.name} className="card"> {/* Individual stat card */}
-            <div className="flex items-center justify-between"> {/* Stat content layout */}
-              <div> {/* Stat text content */}
-                <p className="text-sm font-medium text-gray-600">{stat.name}</p> {/* Stat name */}
-                <p className="text-2xl font-bold text-gray-900">{stat.value}</p> {/* Stat value */}
-                <div className="flex items-center mt-1"> {/* Change indicator */}
-                  {stat.changeType === "increase" ? ( {/* Show up arrow for increase */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Responsive stats grid */}
+        {stats.map((stat) => (
+          // Map through stats array
+          <div key={stat.name} className="card">
+            {/* Individual stat card */}
+            <div className="flex items-center justify-between">
+              {/* Stat content layout */}
+              <div>
+                {/* Stat text content */}
+                <p className="text-sm font-medium text-gray-600">{stat.name}</p>
+                {/* Stat name */}
+                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                {/* Stat value */}
+                <div className="flex items-center mt-1">
+                  {/* Change indicator */}
+                  {stat.changeType === "increase" ? (
+                    // Show up arrow for increase
                     <ArrowUpIcon className="w-4 h-4 text-green-500" />
-                  ) : ( {/* Show down arrow for decrease */}
+                  ) : (
+                    // Show down arrow for decrease
                     <ArrowDownIcon className="w-4 h-4 text-red-500" />
                   )}
                   <span
                     className={`text-sm ml-1 ${
                       stat.changeType === "increase"
-                        ? "text-green-600" // Green for increase
-                        : "text-red-600" // Red for decrease
+                        ? "text-green-600"
+                        : "text-red-600"
                     }`}
                   >
-                    {stat.change} {/* Change percentage */}
+                    {stat.change}
+                    {/* Change percentage */}
                   </span>
                 </div>
               </div>
-              <div className={`p-3 rounded-lg ${stat.bgColor}`}> {/* Stat icon container */}
-                <stat.icon className={`w-6 h-6 ${stat.color}`} /> {/* Stat icon */}
+              <div className={`p-3 rounded-lg ${stat.bgColor}`}>
+                {/* Stat icon container */}
+                <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                {/* Stat icon */}
               </div>
             </div>
           </div>
@@ -226,48 +249,67 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Quick Actions Section */}
-      <div className="card"> {/* Quick actions card */}
-        <h2 className="text-lg font-semibold text-gray-900 mb-4"> {/* Section title */}
+      <div className="card">
+        {/* Quick actions card */}
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          {/* Section title */}
           Quick Actions
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"> {/* Responsive actions grid */}
-          {quickActions.map((action) => ( {/* Map through quick actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Responsive actions grid */}
+          {quickActions.map((action) => (
+            // Map through quick actions
             <Link
-              key={action.name} {/* Unique key for each action */}
-              to={action.href} {/* Navigation link */}
-              className="p-4 border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-md transition-all duration-200" {/* Action card styling */}
+              key={action.name}
+              to={action.href}
+              className="p-4 border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-md transition-all duration-200"
             >
+              {/* Action card styling */}
               <div
-                className={`w-10 h-10 ${action.bgColor} rounded-lg flex items-center justify-center mb-3`} {/* Icon container */}
+                className={`w-10 h-10 ${action.bgColor} rounded-lg flex items-center justify-center mb-3`}
               >
-                <action.icon className={`w-5 h-5 ${action.color}`} /> {/* Action icon */}
+                {/* Icon container */}
+                <action.icon className={`w-5 h-5 ${action.color}`} />
+                {/* Action icon */}
               </div>
-              <h3 className="font-medium text-gray-900 mb-1">{action.name}</h3> {/* Action name */}
-              <p className="text-sm text-gray-600">{action.description}</p> {/* Action description */}
+              <h3 className="font-medium text-gray-900 mb-1">{action.name}</h3>
+              {/* Action name */}
+              <p className="text-sm text-gray-600">{action.description}</p>
+              {/* Action description */}
             </Link>
           ))}
         </div>
       </div>
 
       {/* Upgrade Banner for Free Users */}
-      {subscription?.plan === "free" && ( {/* Only show for free users */}
-        <div className="card bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200"> {/* Upgrade banner */}
-          <div className="flex items-center justify-between"> {/* Banner content layout */}
-            <div className="flex items-center"> {/* Left side content */}
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4"> {/* Icon container */}
-                <LightBulbIcon className="w-6 h-6 text-blue-600" /> {/* Upgrade icon */}
+      {subscription?.plan === "free" && (
+        // Only show for free users
+        <div className="card bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+          {/* Upgrade banner */}
+          <div className="flex items-center justify-between">
+            {/* Banner content layout */}
+            <div className="flex items-center">
+              {/* Left side content */}
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                {/* Icon container */}
+                <LightBulbIcon className="w-6 h-6 text-blue-600" />
+                {/* Upgrade icon */}
               </div>
-              <div> {/* Text content */}
-                <h3 className="font-semibold text-blue-900 mb-1"> {/* Banner title */}
+              <div>
+                {/* Text content */}
+                <h3 className="font-semibold text-blue-900 mb-1">
+                  {/* Banner title */}
                   Unlock Premium Features
                 </h3>
-                <p className="text-sm text-blue-700"> {/* Banner description */}
+                <p className="text-sm text-blue-700">
+                  {/* Banner description */}
                   Get unlimited AI summaries, flashcards, and more with our
                   Student plan
                 </p>
               </div>
             </div>
-            <Link to="/pricing" className="btn-primary whitespace-nowrap"> {/* Upgrade button */}
+            <Link to="/pricing" className="btn-primary whitespace-nowrap">
+              {/* Upgrade button */}
               Upgrade Now
             </Link>
           </div>
@@ -275,48 +317,58 @@ const Dashboard: React.FC = () => {
       )}
 
       {/* Usage & Subscription Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> {/* Responsive layout for usage and subscription */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Responsive layout for usage and subscription */}
         
         {/* Usage Overview */}
-        <div className="lg:col-span-2 card"> {/* Usage section takes 2/3 of the width */}
-          <div className="flex items-center justify-between mb-4"> {/* Section header */}
-            <h2 className="text-lg font-semibold text-gray-900"> {/* Section title */}
+        <div className="lg:col-span-2 card">
+          {/* Usage section takes 2/3 of the width */}
+          <div className="flex items-center justify-between mb-4">
+            {/* Section header */}
+            <h2 className="text-lg font-semibold text-gray-900">
+              {/* Section title */}
               Usage This Month
             </h2>
-            {subscription && ( {/* Show upgrade/manage button if subscription exists */}
-              <Link to="/pricing" className="btn-primary text-sm px-4 py-2"> {/* Action button */}
-                {subscription.plan === "free"
-                  ? "Upgrade Plan" // Text for free users
-                  : "Manage Subscription"} {/* Text for paid users */}
+            {subscription && (
+              // Show upgrade/manage button if subscription exists
+              <Link to="/pricing" className="btn-primary text-sm px-4 py-2">
+                {/* Action button */}
+                {subscription.plan === "free" ? "Upgrade Plan" : "Manage Subscription"}
               </Link>
             )}
           </div>
-          <div className="space-y-4"> {/* Usage metrics container */}
-            {usage ? ( {/* Show usage data if available */}
+          <div className="space-y-4">
+            {/* Usage metrics container */}
+            {usage ? (
+              // Show usage data if available
               <>
                 {/* AI Summaries Usage */}
                 <div>
-                  <div className="flex justify-between text-sm mb-1"> {/* Usage label and count */}
-                    <span className="text-gray-600">AI Summaries</span> {/* Feature name */}
+                  <div className="flex justify-between text-sm mb-1">
+                    {/* Usage label and count */}
+                    <span className="text-gray-600">AI Summaries</span>
+                    {/* Feature name */}
                     <span className="text-gray-900">
-                      {usage.totalSummaries || 0} /{" "} {/* Current usage */}
+                      {usage.totalSummaries || 0} /{" "}
+                      {/* Current usage */}
                       {subscription?.features?.aiSummaries === -1
-                        ? "∞" // Show infinity for unlimited
-                        : subscription?.features?.aiSummaries || 5} {/* Usage limit */}
+                        ? "∞"
+                        : subscription?.features?.aiSummaries || 5}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2"> {/* Progress bar background */}
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    {/* Progress bar background */}
                     <div
                       className={`h-2 rounded-full ${
                         (usage.totalSummaries || 0) /
                           (subscription?.features?.aiSummaries || 5) >
                         0.8
-                          ? "bg-red-500" // Red for high usage (>80%)
+                          ? "bg-red-500"
                           : (usage.totalSummaries || 0) /
                               (subscription?.features?.aiSummaries || 5) >
                             0.6
-                          ? "bg-yellow-500" // Yellow for medium usage (>60%)
-                          : "bg-green-500" // Green for low usage
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
                       }`}
                       style={{
                         width: `${Math.min(
@@ -324,7 +376,7 @@ const Dashboard: React.FC = () => {
                             (subscription?.features?.aiSummaries || 5)) *
                             100,
                           100
-                        )}%`, // Calculate progress bar width
+                        )}%`,
                       }}
                     ></div>
                   </div>
@@ -332,28 +384,32 @@ const Dashboard: React.FC = () => {
 
                 {/* Flashcards Usage */}
                 <div>
-                  <div className="flex justify-between text-sm mb-1"> {/* Usage label and count */}
-                    <span className="text-gray-600">Flashcards</span> {/* Feature name */}
+                  <div className="flex justify-between text-sm mb-1">
+                    {/* Usage label and count */}
+                    <span className="text-gray-600">Flashcards</span>
+                    {/* Feature name */}
                     <span className="text-gray-900">
-                      {usage.totalFlashcards || 0} /{" "} {/* Current usage */}
+                      {usage.totalFlashcards || 0} /{" "}
+                      {/* Current usage */}
                       {subscription?.features?.flashcardGeneration === -1
-                        ? "∞" // Show infinity for unlimited
-                        : subscription?.features?.flashcardGeneration || 3} {/* Usage limit */}
+                        ? "∞"
+                        : subscription?.features?.flashcardGeneration || 3}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2"> {/* Progress bar background */}
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    {/* Progress bar background */}
                     <div
                       className={`h-2 rounded-full ${
                         (usage.totalFlashcards || 0) /
                           (subscription?.features?.flashcardGeneration || 3) >
                         0.8
-                          ? "bg-red-500" // Red for high usage (>80%)
+                          ? "bg-red-500"
                           : (usage.totalFlashcards || 0) /
                               (subscription?.features?.flashcardGeneration ||
                                 3) >
                             0.6
-                          ? "bg-yellow-500" // Yellow for medium usage (>60%)
-                          : "bg-green-500" // Green for low usage
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
                       }`}
                       style={{
                         width: `${Math.min(
@@ -362,7 +418,7 @@ const Dashboard: React.FC = () => {
                               3)) *
                             100,
                           100
-                        )}%`, // Calculate progress bar width
+                        )}%`,
                       }}
                     ></div>
                   </div>
@@ -370,27 +426,31 @@ const Dashboard: React.FC = () => {
 
                 {/* Assignments Usage */}
                 <div>
-                  <div className="flex justify-between text-sm mb-1"> {/* Usage label and count */}
-                    <span className="text-gray-600">Assignments</span> {/* Feature name */}
+                  <div className="flex justify-between text-sm mb-1">
+                    {/* Usage label and count */}
+                    <span className="text-gray-600">Assignments</span>
+                    {/* Feature name */}
                     <span className="text-gray-900">
-                      {usage.totalAssignments || 0} /{" "} {/* Current usage */}
+                      {usage.totalAssignments || 0} /{" "}
+                      {/* Current usage */}
                       {subscription?.features?.assignmentHelp === -1
-                        ? "∞" // Show infinity for unlimited
-                        : subscription?.features?.assignmentHelp || 2} {/* Usage limit */}
+                        ? "∞"
+                        : subscription?.features?.assignmentHelp || 2}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2"> {/* Progress bar background */}
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    {/* Progress bar background */}
                     <div
                       className={`h-2 rounded-full ${
                         (usage.totalAssignments || 0) /
                           (subscription?.features?.assignmentHelp || 2) >
                         0.8
-                          ? "bg-red-500" // Red for high usage (>80%)
+                          ? "bg-red-500"
                           : (usage.totalAssignments || 0) /
                               (subscription?.features?.assignmentHelp || 2) >
                             0.6
-                          ? "bg-yellow-500" // Yellow for medium usage (>60%)
-                          : "bg-green-500" // Green for low usage
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
                       }`}
                       style={{
                         width: `${Math.min(
@@ -398,7 +458,7 @@ const Dashboard: React.FC = () => {
                             (subscription?.features?.assignmentHelp || 2)) *
                             100,
                           100
-                        )}%`, // Calculate progress bar width
+                        )}%`,
                       }}
                     ></div>
                   </div>
@@ -406,27 +466,31 @@ const Dashboard: React.FC = () => {
 
                 {/* Citations Usage */}
                 <div>
-                  <div className="flex justify-between text-sm mb-1"> {/* Usage label and count */}
-                    <span className="text-gray-600">Citations</span> {/* Feature name */}
+                  <div className="flex justify-between text-sm mb-1">
+                    {/* Usage label and count */}
+                    <span className="text-gray-600">Citations</span>
+                    {/* Feature name */}
                     <span className="text-gray-900">
-                      {usage.totalCitations || 0} /{" "} {/* Current usage */}
+                      {usage.totalCitations || 0} /{" "}
+                      {/* Current usage */}
                       {subscription?.features?.citations === -1
-                        ? "∞" // Show infinity for unlimited
-                        : subscription?.features?.citations || 10} {/* Usage limit */}
+                        ? "∞"
+                        : subscription?.features?.citations || 10}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2"> {/* Progress bar background */}
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    {/* Progress bar background */}
                     <div
                       className={`h-2 rounded-full ${
                         (usage.totalCitations || 0) /
                           (subscription?.features?.citations || 10) >
                         0.8
-                          ? "bg-red-500" // Red for high usage (>80%)
+                          ? "bg-red-500"
                           : (usage.totalCitations || 0) /
                               (subscription?.features?.citations || 10) >
                             0.6
-                          ? "bg-yellow-500" // Yellow for medium usage (>60%)
-                          : "bg-green-500" // Green for low usage
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
                       }`}
                       style={{
                         width: `${Math.min(
@@ -434,14 +498,14 @@ const Dashboard: React.FC = () => {
                             (subscription?.features?.citations || 10)) *
                             100,
                           100
-                        )}%`, // Calculate progress bar width
+                        )}%`,
                       }}
                     ></div>
                   </div>
                 </div>
               </>
             ) : (
-              {/* Loading state for usage data */}
+              // Loading state for usage data
               <div className="text-center py-4 text-gray-500">
                 <p>Loading usage data...</p>
               </div>
@@ -450,40 +514,51 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Subscription Status */}
-        <div className="card"> {/* Subscription status card */}
-          <h2 className="text-lg font-semibold text-gray-900 mb-4"> {/* Section title */}
+        <div className="card">
+          {/* Subscription status card */}
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            {/* Section title */}
             Subscription
           </h2>
-          <div className="space-y-4"> {/* Subscription details container */}
-            {subscription ? ( {/* Show subscription data if available */}
+          <div className="space-y-4">
+            {/* Subscription details container */}
+            {subscription ? (
+              // Show subscription data if available
               <>
                 {/* Current Plan */}
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Current Plan</span> {/* Label */}
-                  <span className="font-medium text-gray-900 capitalize"> {/* Plan name */}
+                  <span className="text-gray-600">Current Plan</span>
+                  {/* Label */}
+                  <span className="font-medium text-gray-900 capitalize">
+                    {/* Plan name */}
                     {subscription.plan || "Free"}
                   </span>
                 </div>
                 {/* Subscription Status */}
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Status</span> {/* Label */}
+                  <span className="text-gray-600">Status</span>
+                  {/* Label */}
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${
                       subscription.status === "active"
-                        ? "bg-green-100 text-green-800" // Green for active
+                        ? "bg-green-100 text-green-800"
                         : subscription.status === "incomplete"
-                        ? "bg-yellow-100 text-yellow-800" // Yellow for incomplete
-                        : "bg-gray-100 text-gray-800" // Gray for other statuses
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {subscription.status || "Active"} {/* Status text */}
+                    {subscription.status || "Active"}
+                    {/* Status text */}
                   </span>
                 </div>
                 {/* Next Billing Date */}
-                {subscription.currentPeriodEnd && ( {/* Only show if billing date exists */}
+                {subscription.currentPeriodEnd && (
+                  // Only show if billing date exists
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Next billing</span> {/* Label */}
-                    <span className="text-gray-900"> {/* Billing date */}
+                    <span className="text-gray-600">Next billing</span>
+                    {/* Label */}
+                    <span className="text-gray-900">
+                      {/* Billing date */}
                       {new Date(
                         subscription.currentPeriodEnd
                       ).toLocaleDateString()}
@@ -491,19 +566,21 @@ const Dashboard: React.FC = () => {
                   </div>
                 )}
                 {/* Action Button */}
-                <div className="pt-2"> {/* Button container */}
+                <div className="pt-2">
+                  {/* Button container */}
                   <Link
                     to="/pricing"
-                    className="btn-primary w-full text-center block" {/* Full-width button */}
+                    className="btn-primary w-full text-center block"
                   >
+                    {/* Full-width button */}
                     {subscription.plan === "free"
-                      ? "Upgrade Plan" // Text for free users
-                      : "Manage Subscription"} {/* Text for paid users */}
+                      ? "Upgrade Plan"
+                      : "Manage Subscription"}
                   </Link>
                 </div>
               </>
             ) : (
-              {/* Loading state for subscription data */}
+              // Loading state for subscription data
               <div className="text-center py-4 text-gray-500">
                 <p>Loading subscription data...</p>
               </div>
@@ -513,64 +590,95 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Recent Activity Section */}
-      <div className="card"> {/* Recent activity card */}
-        <div className="flex items-center justify-between mb-4"> {/* Section header */}
-          <h2 className="text-lg font-semibold text-gray-900"> {/* Section title */}
+      <div className="card">
+        {/* Recent activity card */}
+        <div className="flex items-center justify-between mb-4">
+          {/* Section header */}
+          <h2 className="text-lg font-semibold text-gray-900">
+            {/* Section title */}
             Recent Activity
           </h2>
           <Link
             to="/notes"
-            className="text-sm text-primary-600 hover:text-primary-500" {/* View all link */}
+            className="text-sm text-primary-600 hover:text-primary-500"
           >
+            {/* View all link */}
             View all
           </Link>
         </div>
 
         {/* Conditional rendering based on loading and error states */}
-        {!user ? ( {/* Show loading if no user */}
-          <div className="flex items-center justify-center py-8"> {/* Loading container */}
-            <div className="spinner"></div> {/* Loading spinner */}
+        {!user ? (
+          // Show loading if no user
+          <div className="flex items-center justify-center py-8">
+            {/* Loading container */}
+            <div className="spinner"></div>
+            {/* Loading spinner */}
           </div>
-        ) : notesLoading ? ( {/* Show loading if notes are loading */}
-          <div className="flex items-center justify-center py-8"> {/* Loading container */}
-            <div className="spinner"></div> {/* Loading spinner */}
+        ) : notesLoading ? (
+          // Show loading if notes are loading
+          <div className="flex items-center justify-center py-8">
+            {/* Loading container */}
+            <div className="spinner"></div>
+            {/* Loading spinner */}
           </div>
-        ) : notesError ? ( {/* Show error state if notes failed to load */}
-          <div className="text-center py-8 text-gray-500"> {/* Error container */}
-            <DocumentTextIcon className="w-12 h-12 mx-auto mb-3 text-gray-300" /> {/* Error icon */}
-            <p>Unable to load recent activity</p> {/* Error message */}
-            <p className="text-sm">Please try refreshing the page</p> {/* Error suggestion */}
+        ) : notesError ? (
+          // Show error state if notes failed to load
+          <div className="text-center py-8 text-gray-500">
+            {/* Error container */}
+            <DocumentTextIcon className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+            {/* Error icon */}
+            <p>Unable to load recent activity</p>
+            {/* Error message */}
+            <p className="text-sm">Please try refreshing the page</p>
+            {/* Error suggestion */}
             <button
-              onClick={() => window.location.reload()} {/* Refresh page */}
-              className="mt-3 text-blue-600 hover:text-blue-500 text-sm" {/* Refresh button */}
+              onClick={() => window.location.reload()}
+              className="mt-3 text-blue-600 hover:text-blue-500 text-sm"
             >
+              {/* Refresh button */}
               Refresh Page
             </button>
           </div>
-        ) : recentNotes.length > 0 ? ( {/* Show notes if available */}
-          <div className="space-y-4"> {/* Notes list container */}
-            {recentNotes.map((note) => ( {/* Map through recent notes */}
+        ) : recentNotes.length > 0 ? (
+          // Show notes if available
+          <div className="space-y-4">
+            {/* Notes list container */}
+            {recentNotes.map((note) => (
+              // Map through recent notes
               <div
-                key={note._id} {/* Unique key for each note */}
-                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition-all duration-200" {/* Note item styling */}
+                key={note._id}
+                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition-all duration-200"
               >
-                <div className="flex items-center flex-1"> {/* Note content layout */}
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3"> {/* Note icon container */}
-                    <DocumentTextIcon className="w-5 h-5 text-blue-600" /> {/* Note icon */}
+                {/* Note item styling */}
+                <div className="flex items-center flex-1">
+                  {/* Note content layout */}
+                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                    {/* Note icon container */}
+                    <DocumentTextIcon className="w-5 h-5 text-blue-600" />
+                    {/* Note icon */}
                   </div>
-                  <div className="flex-1 min-w-0"> {/* Note details container */}
-                    <h3 className="font-medium text-gray-900 truncate"> {/* Note title */}
+                  <div className="flex-1 min-w-0">
+                    {/* Note details container */}
+                    <h3 className="font-medium text-gray-900 truncate">
+                      {/* Note title */}
                       {note.title}
                     </h3>
-                    <div className="flex items-center text-sm text-gray-500 mt-1"> {/* Note metadata */}
-                      <ClockIcon className="w-4 h-4 mr-1" /> {/* Time icon */}
-                      <span> {/* Last updated date */}
+                    <div className="flex items-center text-sm text-gray-500 mt-1">
+                      {/* Note metadata */}
+                      <ClockIcon className="w-4 h-4 mr-1" />
+                      {/* Time icon */}
+                      <span>
+                        {/* Last updated date */}
                         {new Date(note.updatedAt).toLocaleDateString()}
                       </span>
-                      {note.subject && ( {/* Show subject if available */}
+                      {note.subject && (
+                        // Show subject if available
                         <>
-                          <span className="mx-2">•</span> {/* Separator */}
-                          <span className="bg-gray-100 px-2 py-1 rounded text-xs"> {/* Subject badge */}
+                          <span className="mx-2">•</span>
+                          {/* Separator */}
+                          <span className="bg-gray-100 px-2 py-1 rounded text-xs">
+                            {/* Subject badge */}
                             {note.subject}
                           </span>
                         </>
@@ -579,25 +687,32 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
                 <Link
-                  to={`/notes/${note._id}`} {/* Link to note detail */}
-                  className="text-blue-600 hover:text-blue-500 text-sm font-medium" {/* View link styling */}
+                  to={`/notes/${note._id}`}
+                  className="text-blue-600 hover:text-blue-500 text-sm font-medium"
                 >
+                  {/* View link styling */}
                   View
                 </Link>
               </div>
             ))}
           </div>
         ) : (
-          {/* Empty state when no notes exist */}
-          <div className="text-center py-8 text-gray-500"> {/* Empty state container */}
-            <DocumentTextIcon className="w-12 h-12 mx-auto mb-3 text-gray-300" /> {/* Empty state icon */}
-            <p>No recent activity</p> {/* Empty state message */}
-            <p className="text-sm">Start by creating your first note!</p> {/* Empty state suggestion */}
+          // Empty state when no notes exist
+          <div className="text-center py-8 text-gray-500">
+            {/* Empty state container */}
+            <DocumentTextIcon className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+            {/* Empty state icon */}
+            <p>No recent activity</p>
+            {/* Empty state message */}
+            <p className="text-sm">Start by creating your first note!</p>
+            {/* Empty state suggestion */}
             <Link
-              to="/notes/new" {/* Link to create new note */}
-              className="inline-flex items-center mt-3 text-blue-600 hover:text-blue-500" {/* Create note link */}
+              to="/notes/new"
+              className="inline-flex items-center mt-3 text-blue-600 hover:text-blue-500"
             >
-              <PlusIcon className="w-4 h-4 mr-1" /> {/* Plus icon */}
+              {/* Create note link */}
+              <PlusIcon className="w-4 h-4 mr-1" />
+              {/* Plus icon */}
               Create Note
             </Link>
           </div>
@@ -605,17 +720,25 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* University Information Section - Only shown if user has university data */}
-      {user?.university && ( {/* Only show if user has university information */}
-        <div className="card bg-blue-50 border-blue-200"> {/* University info card */}
-          <div className="flex items-center"> {/* University info layout */}
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4"> {/* University icon container */}
-              <AcademicCapIcon className="w-5 h-5 text-blue-600" /> {/* University icon */}
+      {user?.university && (
+        // Only show if user has university information
+        <div className="card bg-blue-50 border-blue-200">
+          {/* University info card */}
+          <div className="flex items-center">
+            {/* University info layout */}
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+              {/* University icon container */}
+              <AcademicCapIcon className="w-5 h-5 text-blue-600" />
+              {/* University icon */}
             </div>
-            <div> {/* University text content */}
-              <h3 className="font-medium text-blue-900"> {/* University title */}
+            <div>
+              {/* University text content */}
+              <h3 className="font-medium text-blue-900">
+                {/* University title */}
                 University Partnership
               </h3>
-              <p className="text-sm text-blue-700"> {/* University description */}
+              <p className="text-sm text-blue-700">
+                {/* University description */}
                 You're using Noted.AI through {user.university.name}
               </p>
             </div>
