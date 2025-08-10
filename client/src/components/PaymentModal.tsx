@@ -44,7 +44,7 @@ const PaymentForm: React.FC<{
     setLoading(true);
 
     try {
-      // Get payment method
+     
       const cardElement = elements.getElement(CardElement);
       if (!cardElement) {
         throw new Error("Card element not found");
@@ -60,7 +60,7 @@ const PaymentForm: React.FC<{
         throw new Error(paymentMethodError.message);
       }
 
-      // Map plan names to backend format
+     
       const planMapping: { [key: string]: string } = {
         "Student Premium": "student",
         University: "university",
@@ -70,7 +70,7 @@ const PaymentForm: React.FC<{
       const backendPlanName =
         planMapping[plan.name] || plan.name.toLowerCase().replace(" ", "");
 
-      // Create subscription
+     
       const response = await fetch("/api/subscriptions/create", {
         method: "POST",
         headers: {
@@ -89,7 +89,7 @@ const PaymentForm: React.FC<{
         throw new Error(result.error || "Failed to create subscription");
       }
 
-      // Handle free plan (no payment confirmation needed)
+     
       if (result.clientSecret === null) {
         toast.success("Free plan activated successfully!");
         onSuccess();
@@ -97,7 +97,7 @@ const PaymentForm: React.FC<{
         return;
       }
 
-      // Confirm payment
+     
       const { error: confirmError } = await stripe.confirmCardPayment(
         result.clientSecret
       );
@@ -203,7 +203,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           <PaymentForm
             plan={plan}
             onSuccess={() => {
-              // Refresh user data or redirect
+             
               window.location.reload();
             }}
             onClose={onClose}

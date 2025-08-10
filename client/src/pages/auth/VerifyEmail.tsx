@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { authAPI } from "../../services/api";
@@ -14,13 +14,7 @@ const VerifyEmail: React.FC = () => {
 
   const token = searchParams.get("token");
 
-  useEffect(() => {
-    if (token) {
-      verifyEmail();
-    }
-  }, [token]);
-
-  const verifyEmail = async () => {
+  const verifyEmail = useCallback(async () => {
     if (!token) return;
 
     setVerificationStatus("loading");
@@ -35,7 +29,13 @@ const VerifyEmail: React.FC = () => {
       );
       toast.error("Email verification failed");
     }
-  };
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      verifyEmail();
+    }
+  }, [token, verifyEmail]);
 
   const resendVerification = async () => {
     try {

@@ -75,10 +75,10 @@ const Citations: React.FC = () => {
 
     setGenerating(true);
     try {
-      // TODO: Replace with actual AI API call
-      // const response = await api.post('/ai/cite', formData);
+     
+     
 
-      // Simulate AI generation
+     
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       let generatedCitation = "";
@@ -163,13 +163,13 @@ const Citations: React.FC = () => {
 
     setGenerating(true);
     try {
-      // TODO: Replace with actual AI API call
-      // const response = await api.post('/ai/cite-from-url', { url: formData.url });
+     
+     
 
-      // Simulate AI processing
+     
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
-      // Mock extracted data
+     
       setFormData((prev) => ({
         ...prev,
         title: "Automatically Extracted Title",
@@ -188,7 +188,7 @@ const Citations: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+     
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Citations</h1>
@@ -205,7 +205,7 @@ const Citations: React.FC = () => {
         </button>
       </div>
 
-      {/* Citation Form */}
+     
       {showForm && (
         <div className="card p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
@@ -349,7 +349,7 @@ const Citations: React.FC = () => {
         </div>
       )}
 
-      {/* Citations List */}
+     
       {citations.length > 0 ? (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-gray-900">

@@ -30,57 +30,72 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 // Main App component that handles routing and authentication state
 const App: React.FC = () => {
-  // Get user authentication state and loading status from context
+ 
   const { user, loading } = useAuth();
 
-  // Show loading spinner while checking authentication status
+ 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="spinner"></div> {/* Loading spinner component */}
+        <div className="spinner"></div>
+       
       </div>
     );
   }
 
-  // If user is not authenticated, show public routes only
+ 
   if (!user) {
     return (
       <Routes>
-        {/* Public routes accessible to non-authenticated users */}
-        <Route path="/" element={<LandingPage />} /> {/* Home page */}
-        <Route path="/login" element={<Login />} /> {/* Login page */}
-        <Route path="/register" element={<Register />} /> {/* Registration page */}
-        <Route path="/verify-email" element={<VerifyEmail />} /> {/* Email verification page */}
-        <Route path="/forgot-password" element={<ForgotPassword />} /> {/* Password reset request page */}
-        <Route path="/reset-password" element={<ResetPassword />} /> {/* Password reset page */}
-        <Route path="/pricing" element={<Pricing />} /> {/* Pricing information page */}
+       
+        <Route path="/" element={<LandingPage />} />
+       
+        <Route path="/login" element={<Login />} />
+       
+        <Route path="/register" element={<Register />} />
+       
+        <Route path="/verify-email" element={<VerifyEmail />} />
+       
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+       
+        <Route path="/reset-password" element={<ResetPassword />} />
+       
+        <Route path="/pricing" element={<Pricing />} />
+       
         <Route
           path="/university-partnership"
-          element={<UniversityPartnership />} {/* University partnership page */}
+          element={<UniversityPartnership />}
         />
-        {/* Redirect any unknown routes to home page */}
+       
+       
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
   }
 
-  // If user is authenticated, show the main application layout
+ 
   return (
-    <div className="min-h-screen bg-gray-50"> {/* Main container with gray background */}
-      <Navbar /> {/* Top navigation bar */}
-      <div className="flex"> {/* Flex container for sidebar and main content */}
-        <Sidebar /> {/* Left sidebar navigation */}
-        <main className="flex-1 p-6"> {/* Main content area with padding */}
+    <div className="min-h-screen bg-gray-50">
+     
+      <Navbar />
+     
+      <div className="flex">
+       
+        <Sidebar />
+       
+        <main className="flex-1 p-6">
+         
           <Routes>
-            {/* Redirect root to dashboard for authenticated users */}
+           
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             
-            {/* Protected routes that require authentication */}
+           
             <Route
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <Dashboard /> {/* Main dashboard page */}
+                  <Dashboard />
+                 
                 </ProtectedRoute>
               }
             />
@@ -88,7 +103,8 @@ const App: React.FC = () => {
               path="/notes"
               element={
                 <ProtectedRoute>
-                  <Notes /> {/* Notes list page */}
+                  <Notes />
+                 
                 </ProtectedRoute>
               }
             />
@@ -96,7 +112,8 @@ const App: React.FC = () => {
               path="/notes/new"
               element={
                 <ProtectedRoute>
-                  <NoteEditor /> {/* Create new note page */}
+                  <NoteEditor />
+                 
                 </ProtectedRoute>
               }
             />
@@ -104,7 +121,8 @@ const App: React.FC = () => {
               path="/notes/:id"
               element={
                 <ProtectedRoute>
-                  <NoteEditor /> {/* Edit existing note page */}
+                  <NoteEditor />
+                 
                 </ProtectedRoute>
               }
             />
@@ -112,7 +130,8 @@ const App: React.FC = () => {
               path="/ai-features"
               element={
                 <ProtectedRoute>
-                  <AIFeatures /> {/* AI-powered features page */}
+                  <AIFeatures />
+                 
                 </ProtectedRoute>
               }
             />
@@ -120,7 +139,8 @@ const App: React.FC = () => {
               path="/flashcards"
               element={
                 <ProtectedRoute>
-                  <Flashcards /> {/* Flashcards management page */}
+                  <Flashcards />
+                 
                 </ProtectedRoute>
               }
             />
@@ -128,7 +148,8 @@ const App: React.FC = () => {
               path="/citations"
               element={
                 <ProtectedRoute>
-                  <Citations /> {/* Citation generation page */}
+                  <Citations />
+                 
                 </ProtectedRoute>
               }
             />
@@ -136,19 +157,22 @@ const App: React.FC = () => {
               path="/profile"
               element={
                 <ProtectedRoute>
-                  <Profile /> {/* User profile management page */}
+                  <Profile />
+                 
                 </ProtectedRoute>
               }
             />
             
-            {/* Public routes accessible to authenticated users */}
-            <Route path="/pricing" element={<Pricing />} /> {/* Pricing information page */}
+           
+            <Route path="/pricing" element={<Pricing />} />
+           
             <Route
               path="/university-partnership"
-              element={<UniversityPartnership />} {/* University partnership page */}
+              element={<UniversityPartnership />}
             />
+           
             
-            {/* Redirect any unknown routes to dashboard for authenticated users */}
+           
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </main>

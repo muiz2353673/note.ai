@@ -28,10 +28,10 @@ const UniversityPartnership: React.FC = () => {
     setSubmitting(true);
 
     try {
-      // TODO: Replace with actual API call
-      // await api.post('/universities/contact', formData);
+     
+     
 
-      // Simulate API call
+     
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       toast.success("Thank you! We'll be in touch soon.");
@@ -111,7 +111,7 @@ const UniversityPartnership: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
+     
       <div className="bg-gradient-to-r from-primary-600 to-primary-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
@@ -135,7 +135,7 @@ const UniversityPartnership: React.FC = () => {
         </div>
       </div>
 
-      {/* Features Section */}
+     
       <div className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -163,7 +163,7 @@ const UniversityPartnership: React.FC = () => {
         </div>
       </div>
 
-      {/* Benefits Section */}
+     
       <div className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -227,11 +227,11 @@ const UniversityPartnership: React.FC = () => {
         </div>
       </div>
 
-      {/* Contact Section */}
+     
       <div className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
+           
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
                 Get Started Today
@@ -344,7 +344,7 @@ const UniversityPartnership: React.FC = () => {
               </form>
             </div>
 
-            {/* Contact Information */}
+           
             <div className="card p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">
                 Contact Information

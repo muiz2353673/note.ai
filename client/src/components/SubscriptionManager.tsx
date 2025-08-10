@@ -26,7 +26,7 @@ const SubscriptionManager: React.FC<SubscriptionManagerProps> = ({
   };
 
   const getUsagePercentage = (current: number, limit: number) => {
-    if (limit === -1) return 0; // Unlimited
+    if (limit === -1) return 0;
     return Math.round((current / limit) * 100);
   };
 
@@ -111,7 +111,7 @@ const SubscriptionManager: React.FC<SubscriptionManagerProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Current Plan */}
+     
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-medium text-gray-900">Current Plan</h3>
@@ -164,7 +164,7 @@ const SubscriptionManager: React.FC<SubscriptionManagerProps> = ({
         </div>
       </div>
 
-      {/* Usage */}
+     
       <div className="card">
         <h3 className="text-lg font-medium text-gray-900 mb-4">
           Usage This Month
@@ -206,7 +206,7 @@ const SubscriptionManager: React.FC<SubscriptionManagerProps> = ({
         </div>
       </div>
 
-      {/* Features */}
+     
       <div className="card">
         <h3 className="text-lg font-medium text-gray-900 mb-4">
           Plan Features

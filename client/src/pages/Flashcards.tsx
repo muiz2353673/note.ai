@@ -54,10 +54,10 @@ const Flashcards: React.FC = () => {
   const generateFlashcards = async () => {
     setGenerating(true);
     try {
-      // TODO: Replace with actual AI API call
-      // const response = await api.post('/ai/flashcards', { notes: selectedNotes });
+     
+     
 
-      // Simulate AI generation
+     
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
       const newFlashcards: Flashcard[] = [
@@ -136,7 +136,7 @@ const Flashcards: React.FC = () => {
   if (studyMode) {
     return (
       <div className="space-y-6">
-        {/* Study Mode Header */}
+       
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
@@ -161,7 +161,7 @@ const Flashcards: React.FC = () => {
           </div>
         </div>
 
-        {/* Flashcard */}
+       
         <div className="max-w-2xl mx-auto">
           <div className="card p-8 text-center">
             <div className="mb-6">
@@ -219,7 +219,7 @@ const Flashcards: React.FC = () => {
             </div>
           </div>
 
-          {/* Navigation */}
+         
           <div className="flex items-center justify-between mt-6">
             <button
               onClick={previousCard}
@@ -245,7 +245,7 @@ const Flashcards: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+     
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Flashcards</h1>
@@ -273,7 +273,7 @@ const Flashcards: React.FC = () => {
         </div>
       </div>
 
-      {/* Flashcard Stats */}
+     
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="card text-center p-6">
           <div className="text-3xl font-bold text-primary-600 mb-2">
@@ -295,7 +295,7 @@ const Flashcards: React.FC = () => {
         </div>
       </div>
 
-      {/* Flashcard List */}
+     
       {flashcards.length > 0 ? (
         <div className="space-y-4">
           <h3 className="text-lg font-semibold text-gray-900">

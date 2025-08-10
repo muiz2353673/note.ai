@@ -55,7 +55,7 @@ const NoteEditor: React.FC = () => {
     setLoading(true);
     try {
       const response = await notesAPI.getById(id!);
-      const noteData = response.data.note; // Access the note property correctly
+      const noteData = response.data.note;
       setNote({
         id: noteData._id,
         title: noteData.title || "",
@@ -69,7 +69,7 @@ const NoteEditor: React.FC = () => {
     } catch (error) {
       console.error("Failed to load note:", error);
       toast.error("Failed to load note");
-      // Reset to default state on error
+     
       setNote({
         title: "",
         content: "",
@@ -104,12 +104,12 @@ const NoteEditor: React.FC = () => {
       };
 
       if (!id || id === "new") {
-        // Create new note
+       
         await notesAPI.create(noteData);
         toast.success("Note created successfully!");
         navigate("/notes");
       } else {
-        // Update existing note
+       
         await notesAPI.update(id, noteData);
         toast.success("Note updated successfully!");
       }
@@ -144,7 +144,7 @@ const NoteEditor: React.FC = () => {
             note.content;
           break;
         case "expand":
-          // For now, use a simple expansion
+         
           enhancedContent =
             note.content +
             "\n\n## AI Enhanced Content\n\nThis section provides additional context and explanations for the key concepts mentioned above...";
@@ -205,7 +205,7 @@ const NoteEditor: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+     
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <button
@@ -253,9 +253,9 @@ const NoteEditor: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Main Editor */}
+       
         <div className="lg:col-span-3 space-y-6">
-          {/* Title Input */}
+         
           <div className="card">
             <input
               type="text"
@@ -268,7 +268,7 @@ const NoteEditor: React.FC = () => {
             />
           </div>
 
-          {/* Content Editor */}
+         
           <div className="card">
             <textarea
               placeholder="Start writing your notes here..."
@@ -281,9 +281,9 @@ const NoteEditor: React.FC = () => {
           </div>
         </div>
 
-        {/* Sidebar */}
+       
         <div className="space-y-6">
-          {/* Subject Selection */}
+         
           <div className="card">
             <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
               <AcademicCapIcon className="w-5 h-5 mr-2" />
@@ -305,7 +305,7 @@ const NoteEditor: React.FC = () => {
             </select>
           </div>
 
-          {/* Tags */}
+         
           <div className="card">
             <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
               <TagIcon className="w-5 h-5 mr-2" />
@@ -347,7 +347,7 @@ const NoteEditor: React.FC = () => {
             </div>
           </div>
 
-          {/* AI Assistant Panel */}
+         
           {showAIPanel && (
             <div className="card">
               <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">

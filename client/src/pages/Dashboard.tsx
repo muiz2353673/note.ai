@@ -23,300 +23,279 @@ import {
 // Interface defining the structure of a Note object
 // Contains all note-related data for display in the dashboard
 interface Note {
-  _id: string; // Unique note identifier
-  title: string; // Note title
-  content: string; // Note content
-  subject: string; // Academic subject/course
-  tags: string[]; // Array of tags for categorization
-  isBookmarked?: boolean; // Whether note is bookmarked (optional)
-  createdAt: string; // Note creation timestamp
-  updatedAt: string; // Note last update timestamp
+  _id: string;
+  title: string;
+  content: string;
+  subject: string;
+  tags: string[];
+  isBookmarked?: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Dashboard component that displays user's overview and recent activity
 const Dashboard: React.FC = () => {
-  // Get user data from authentication context
   const { user } = useAuth();
-  // Get subscription and usage data from subscription context
+
   const { subscription, usage, loading } = useSubscription();
 
-  // Debug logging for development
   console.log("Dashboard - User:", user);
   console.log("Dashboard - Subscription:", subscription);
   console.log("Dashboard - Usage:", usage);
 
-  // State for managing recent notes data
-  const [notesLoading, setNotesLoading] = useState(true); // Loading state for notes
-  const [recentNotes, setRecentNotes] = useState<Note[]>([]); // Array of recent notes
-  const [notesError, setNotesError] = useState(false); // Error state for notes fetching
+  const [notesLoading, setNotesLoading] = useState(true);
+  const [recentNotes, setRecentNotes] = useState<Note[]>([]);
+  const [notesError, setNotesError] = useState(false);
 
-  // Effect to fetch recent notes when component mounts or user changes
   useEffect(() => {
     const fetchRecentNotes = async () => {
       try {
-        setNotesLoading(true); // Set loading state
-        setNotesError(false); // Clear any previous errors
-        console.log("Fetching recent notes..."); // Debug log
-        // Fetch recent notes from API with limit of 5
+        setNotesLoading(true);
+        setNotesError(false);
+        console.log("Fetching recent notes...");
+
         const response = await axios.get("/api/notes?limit=5");
-        console.log("Recent notes response:", response.data); // Debug log
-        setRecentNotes(response.data.notes || []); // Update notes state
+        console.log("Recent notes response:", response.data);
+        setRecentNotes(response.data.notes || []);
       } catch (error) {
-        console.error("Failed to fetch recent notes:", error); // Error logging
-        setRecentNotes([]); // Clear notes on error
-        setNotesError(true); // Set error state
+        console.error("Failed to fetch recent notes:", error);
+        setRecentNotes([]);
+        setNotesError(true);
       } finally {
-        setNotesLoading(false); // Clear loading state
+        setNotesLoading(false);
       }
     };
 
-    // Only fetch notes if user is authenticated
     if (user) {
       fetchRecentNotes();
     }
-  }, [user]); // Dependency on user to refetch when user changes
+  }, [user]);
 
-  // Statistics data for the dashboard cards
-  // Shows user's usage metrics with visual indicators
   const stats = [
     {
-      name: "Total Notes", // Stat name
-      value: usage?.totalNotes || user?.usage?.totalNotes || 0, // Get value from context or user data
-      icon: DocumentTextIcon, // Icon for the stat
-      color: "text-blue-600", // Text color
-      bgColor: "bg-blue-100", // Background color
-      change: "+12%", // Change indicator
-      changeType: "increase", // Type of change (increase/decrease)
+      name: "Total Notes",
+      value: usage?.totalNotes || user?.usage?.totalNotes || 0,
+      icon: DocumentTextIcon,
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
+      change: "+12%",
+      changeType: "increase",
     },
     {
-      name: "AI Summaries", // Stat name
-      value: usage?.totalSummaries || user?.usage?.totalSummaries || 0, // Get value from context or user data
-      icon: LightBulbIcon, // Icon for the stat
-      color: "text-green-600", // Text color
-      bgColor: "bg-green-100", // Background color
-      change: "+8%", // Change indicator
-      changeType: "increase", // Type of change
+      name: "AI Summaries",
+      value: usage?.totalSummaries || user?.usage?.totalSummaries || 0,
+      icon: LightBulbIcon,
+      color: "text-green-600",
+      bgColor: "bg-green-100",
+      change: "+8%",
+      changeType: "increase",
     },
     {
-      name: "Flashcards", // Stat name
-      value: usage?.totalFlashcards || user?.usage?.totalFlashcards || 0, // Get value from context or user data
-      icon: BookOpenIcon, // Icon for the stat
-      color: "text-purple-600", // Text color
-      bgColor: "bg-purple-100", // Background color
-      change: "+15%", // Change indicator
-      changeType: "increase", // Type of change
+      name: "Flashcards",
+      value: usage?.totalFlashcards || user?.usage?.totalFlashcards || 0,
+      icon: BookOpenIcon,
+      color: "text-purple-600",
+      bgColor: "bg-purple-100",
+      change: "+15%",
+      changeType: "increase",
     },
     {
-      name: "Assignments", // Stat name
-      value: usage?.totalAssignments || user?.usage?.totalAssignments || 0, // Get value from context or user data
-      icon: AcademicCapIcon, // Icon for the stat
-      color: "text-orange-600", // Text color
-      bgColor: "bg-orange-100", // Background color
-      change: "+5%", // Change indicator
-      changeType: "increase", // Type of change
+      name: "Assignments",
+      value: usage?.totalAssignments || user?.usage?.totalAssignments || 0,
+      icon: AcademicCapIcon,
+      color: "text-orange-600",
+      bgColor: "bg-orange-100",
+      change: "+5%",
+      changeType: "increase",
     },
   ];
 
-  // Debug logging for subscription data
   console.log("Dashboard - User usage:", user?.usage);
   console.log("Dashboard - Context usage:", usage);
   console.log("Dashboard - Context subscription:", subscription);
 
-  // Quick actions data for the dashboard
-  // Provides easy access to common features
   const quickActions = [
     {
-      name: "Create Note", // Action name
-      description: "Start a new note", // Action description
-      icon: PlusIcon, // Action icon
-      href: "/notes/new", // Navigation link
-      color: "text-blue-600", // Icon color
-      bgColor: "bg-blue-100", // Background color
+      name: "Create Note",
+      description: "Start a new note",
+      icon: PlusIcon,
+      href: "/notes/new",
+      color: "text-blue-600",
+      bgColor: "bg-blue-100",
     },
     {
-      name: "AI Summary", // Action name
-      description: "Summarize your notes", // Action description
-      icon: LightBulbIcon, // Action icon
-      href: "/ai-features", // Navigation link
-      color: "text-green-600", // Icon color
-      bgColor: "bg-green-100", // Background color
+      name: "AI Summary",
+      description: "Summarize your notes",
+      icon: LightBulbIcon,
+      href: "/ai-features",
+      color: "text-green-600",
+      bgColor: "bg-green-100",
     },
     {
-      name: "Study Mode", // Action name
-      description: "Review flashcards", // Action description
-      icon: BookOpenIcon, // Action icon
-      href: "/flashcards", // Navigation link
-      color: "text-purple-600", // Icon color
-      bgColor: "bg-purple-100", // Background color
+      name: "Study Mode",
+      description: "Review flashcards",
+      icon: BookOpenIcon,
+      href: "/flashcards",
+      color: "text-purple-600",
+      bgColor: "bg-purple-100",
     },
     {
-      name: "Citations", // Action name
-      description: "Generate citations", // Action description
-      icon: AcademicCapIcon, // Action icon
-      href: "/citations", // Navigation link
-      color: "text-orange-600", // Icon color
-      bgColor: "bg-orange-100", // Background color
+      name: "Citations",
+      description: "Generate citations",
+      icon: AcademicCapIcon,
+      href: "/citations",
+      color: "text-orange-600",
+      bgColor: "bg-orange-100",
     },
   ];
 
-  // Show loading state if subscription data is still loading
   if (loading) {
     return (
-      <div className="space-y-6"> {/* Main container with spacing */}
-        {/* Welcome section with loading message */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white"> {/* Gradient background */}
-          <h1 className="text-2xl font-bold mb-2"> {/* Welcome heading */}
+      <div className="space-y-6">
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white">
+          <h1 className="text-2xl font-bold mb-2">
             Welcome back, {user?.firstName}! 👋
           </h1>
-          <p className="text-blue-100">Loading your dashboard...</p> {/* Loading message */}
+          <p className="text-blue-100">Loading your dashboard...</p>
         </div>
-        {/* Loading spinner */}
-        <div className="flex items-center justify-center py-12"> {/* Centered loading container */}
-          <div className="spinner"></div> {/* Loading spinner component */}
+
+        <div className="flex items-center justify-center py-12">
+          <div className="spinner"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6"> {/* Main dashboard container with spacing */}
-      
-      {/* Welcome Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white"> {/* Gradient welcome banner */}
-        <h1 className="text-2xl font-bold mb-2"> {/* Welcome heading */}
+    <div className="space-y-6">
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-6 text-white">
+        <h1 className="text-2xl font-bold mb-2">
           Welcome back, {user?.firstName}! 👋
         </h1>
-        <p className="text-blue-100"> {/* Welcome message */}
+        <p className="text-blue-100">
           Ready to continue your academic journey? Here's what's happening with
           your studies.
         </p>
       </div>
 
-      {/* Statistics Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"> {/* Responsive stats grid */}
-        {stats.map((stat) => ( {/* Map through stats array */}
-          <div key={stat.name} className="card"> {/* Individual stat card */}
-            <div className="flex items-center justify-between"> {/* Stat content layout */}
-              <div> {/* Stat text content */}
-                <p className="text-sm font-medium text-gray-600">{stat.name}</p> {/* Stat name */}
-                <p className="text-2xl font-bold text-gray-900">{stat.value}</p> {/* Stat value */}
-                <div className="flex items-center mt-1"> {/* Change indicator */}
-                  {stat.changeType === "increase" ? ( {/* Show up arrow for increase */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat) => (
+          <div key={stat.name} className="card">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">{stat.name}</p>
+                <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+                <div className="flex items-center mt-1">
+                  {stat.changeType === "increase" ? (
                     <ArrowUpIcon className="w-4 h-4 text-green-500" />
-                  ) : ( {/* Show down arrow for decrease */}
+                  ) : (
                     <ArrowDownIcon className="w-4 h-4 text-red-500" />
                   )}
                   <span
                     className={`text-sm ml-1 ${
                       stat.changeType === "increase"
-                        ? "text-green-600" // Green for increase
-                        : "text-red-600" // Red for decrease
+                        ? "text-green-600"
+                        : "text-red-600"
                     }`}
                   >
-                    {stat.change} {/* Change percentage */}
+                    {stat.change}
                   </span>
                 </div>
               </div>
-              <div className={`p-3 rounded-lg ${stat.bgColor}`}> {/* Stat icon container */}
-                <stat.icon className={`w-6 h-6 ${stat.color}`} /> {/* Stat icon */}
+              <div className={`p-3 rounded-lg ${stat.bgColor}`}>
+                <stat.icon className={`w-6 h-6 ${stat.color}`} />
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Quick Actions Section */}
-      <div className="card"> {/* Quick actions card */}
-        <h2 className="text-lg font-semibold text-gray-900 mb-4"> {/* Section title */}
+      <div className="card">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">
           Quick Actions
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"> {/* Responsive actions grid */}
-          {quickActions.map((action) => ( {/* Map through quick actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {quickActions.map((action) => (
             <Link
-              key={action.name} {/* Unique key for each action */}
-              to={action.href} {/* Navigation link */}
-              className="p-4 border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-md transition-all duration-200" {/* Action card styling */}
+              key={action.name}
+              to={action.href}
+              className="p-4 border border-gray-200 rounded-lg hover:border-primary-300 hover:shadow-md transition-all duration-200"
             >
               <div
-                className={`w-10 h-10 ${action.bgColor} rounded-lg flex items-center justify-center mb-3`} {/* Icon container */}
+                className={`w-10 h-10 ${action.bgColor} rounded-lg flex items-center justify-center mb-3`}
               >
-                <action.icon className={`w-5 h-5 ${action.color}`} /> {/* Action icon */}
+                <action.icon className={`w-5 h-5 ${action.color}`} />
               </div>
-              <h3 className="font-medium text-gray-900 mb-1">{action.name}</h3> {/* Action name */}
-              <p className="text-sm text-gray-600">{action.description}</p> {/* Action description */}
+              <h3 className="font-medium text-gray-900 mb-1">{action.name}</h3>
+              <p className="text-sm text-gray-600">{action.description}</p>
             </Link>
           ))}
         </div>
       </div>
 
-      {/* Upgrade Banner for Free Users */}
-      {subscription?.plan === "free" && ( {/* Only show for free users */}
-        <div className="card bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200"> {/* Upgrade banner */}
-          <div className="flex items-center justify-between"> {/* Banner content layout */}
-            <div className="flex items-center"> {/* Left side content */}
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4"> {/* Icon container */}
-                <LightBulbIcon className="w-6 h-6 text-blue-600" /> {/* Upgrade icon */}
+      {subscription?.plan === "free" && (
+        <div className="card bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                <LightBulbIcon className="w-6 h-6 text-blue-600" />
               </div>
-              <div> {/* Text content */}
-                <h3 className="font-semibold text-blue-900 mb-1"> {/* Banner title */}
+              <div>
+                <h3 className="font-semibold text-blue-900 mb-1">
                   Unlock Premium Features
                 </h3>
-                <p className="text-sm text-blue-700"> {/* Banner description */}
+                <p className="text-sm text-blue-700">
                   Get unlimited AI summaries, flashcards, and more with our
                   Student plan
                 </p>
               </div>
             </div>
-            <Link to="/pricing" className="btn-primary whitespace-nowrap"> {/* Upgrade button */}
+            <Link to="/pricing" className="btn-primary whitespace-nowrap">
               Upgrade Now
             </Link>
           </div>
         </div>
       )}
 
-      {/* Usage & Subscription Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> {/* Responsive layout for usage and subscription */}
-        
-        {/* Usage Overview */}
-        <div className="lg:col-span-2 card"> {/* Usage section takes 2/3 of the width */}
-          <div className="flex items-center justify-between mb-4"> {/* Section header */}
-            <h2 className="text-lg font-semibold text-gray-900"> {/* Section title */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 card">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">
               Usage This Month
             </h2>
-            {subscription && ( {/* Show upgrade/manage button if subscription exists */}
-              <Link to="/pricing" className="btn-primary text-sm px-4 py-2"> {/* Action button */}
+            {subscription && (
+              <Link to="/pricing" className="btn-primary text-sm px-4 py-2">
                 {subscription.plan === "free"
-                  ? "Upgrade Plan" // Text for free users
-                  : "Manage Subscription"} {/* Text for paid users */}
+                  ? "Upgrade Plan"
+                  : "Manage Subscription"}
               </Link>
             )}
           </div>
-          <div className="space-y-4"> {/* Usage metrics container */}
-            {usage ? ( {/* Show usage data if available */}
+          <div className="space-y-4">
+            {usage ? (
               <>
-                {/* AI Summaries Usage */}
                 <div>
-                  <div className="flex justify-between text-sm mb-1"> {/* Usage label and count */}
-                    <span className="text-gray-600">AI Summaries</span> {/* Feature name */}
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-gray-600">AI Summaries</span>
                     <span className="text-gray-900">
-                      {usage.totalSummaries || 0} /{" "} {/* Current usage */}
+                      {usage.totalSummaries || 0} /{" "}
                       {subscription?.features?.aiSummaries === -1
-                        ? "∞" // Show infinity for unlimited
-                        : subscription?.features?.aiSummaries || 5} {/* Usage limit */}
+                        ? "∞"
+                        : subscription?.features?.aiSummaries || 5}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2"> {/* Progress bar background */}
+                  <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${
                         (usage.totalSummaries || 0) /
                           (subscription?.features?.aiSummaries || 5) >
                         0.8
-                          ? "bg-red-500" // Red for high usage (>80%)
+                          ? "bg-red-500"
                           : (usage.totalSummaries || 0) /
                               (subscription?.features?.aiSummaries || 5) >
                             0.6
-                          ? "bg-yellow-500" // Yellow for medium usage (>60%)
-                          : "bg-green-500" // Green for low usage
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
                       }`}
                       style={{
                         width: `${Math.min(
@@ -324,36 +303,35 @@ const Dashboard: React.FC = () => {
                             (subscription?.features?.aiSummaries || 5)) *
                             100,
                           100
-                        )}%`, // Calculate progress bar width
+                        )}%`,
                       }}
                     ></div>
                   </div>
                 </div>
 
-                {/* Flashcards Usage */}
                 <div>
-                  <div className="flex justify-between text-sm mb-1"> {/* Usage label and count */}
-                    <span className="text-gray-600">Flashcards</span> {/* Feature name */}
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-gray-600">Flashcards</span>
                     <span className="text-gray-900">
-                      {usage.totalFlashcards || 0} /{" "} {/* Current usage */}
+                      {usage.totalFlashcards || 0} /{" "}
                       {subscription?.features?.flashcardGeneration === -1
-                        ? "∞" // Show infinity for unlimited
-                        : subscription?.features?.flashcardGeneration || 3} {/* Usage limit */}
+                        ? "∞"
+                        : subscription?.features?.flashcardGeneration || 3}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2"> {/* Progress bar background */}
+                  <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${
                         (usage.totalFlashcards || 0) /
                           (subscription?.features?.flashcardGeneration || 3) >
                         0.8
-                          ? "bg-red-500" // Red for high usage (>80%)
+                          ? "bg-red-500"
                           : (usage.totalFlashcards || 0) /
                               (subscription?.features?.flashcardGeneration ||
                                 3) >
                             0.6
-                          ? "bg-yellow-500" // Yellow for medium usage (>60%)
-                          : "bg-green-500" // Green for low usage
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
                       }`}
                       style={{
                         width: `${Math.min(
@@ -362,35 +340,34 @@ const Dashboard: React.FC = () => {
                               3)) *
                             100,
                           100
-                        )}%`, // Calculate progress bar width
+                        )}%`,
                       }}
                     ></div>
                   </div>
                 </div>
 
-                {/* Assignments Usage */}
                 <div>
-                  <div className="flex justify-between text-sm mb-1"> {/* Usage label and count */}
-                    <span className="text-gray-600">Assignments</span> {/* Feature name */}
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-gray-600">Assignments</span>
                     <span className="text-gray-900">
-                      {usage.totalAssignments || 0} /{" "} {/* Current usage */}
+                      {usage.totalAssignments || 0} /{" "}
                       {subscription?.features?.assignmentHelp === -1
-                        ? "∞" // Show infinity for unlimited
-                        : subscription?.features?.assignmentHelp || 2} {/* Usage limit */}
+                        ? "∞"
+                        : subscription?.features?.assignmentHelp || 2}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2"> {/* Progress bar background */}
+                  <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${
                         (usage.totalAssignments || 0) /
                           (subscription?.features?.assignmentHelp || 2) >
                         0.8
-                          ? "bg-red-500" // Red for high usage (>80%)
+                          ? "bg-red-500"
                           : (usage.totalAssignments || 0) /
                               (subscription?.features?.assignmentHelp || 2) >
                             0.6
-                          ? "bg-yellow-500" // Yellow for medium usage (>60%)
-                          : "bg-green-500" // Green for low usage
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
                       }`}
                       style={{
                         width: `${Math.min(
@@ -398,35 +375,34 @@ const Dashboard: React.FC = () => {
                             (subscription?.features?.assignmentHelp || 2)) *
                             100,
                           100
-                        )}%`, // Calculate progress bar width
+                        )}%`,
                       }}
                     ></div>
                   </div>
                 </div>
 
-                {/* Citations Usage */}
                 <div>
-                  <div className="flex justify-between text-sm mb-1"> {/* Usage label and count */}
-                    <span className="text-gray-600">Citations</span> {/* Feature name */}
+                  <div className="flex justify-between text-sm mb-1">
+                    <span className="text-gray-600">Citations</span>
                     <span className="text-gray-900">
-                      {usage.totalCitations || 0} /{" "} {/* Current usage */}
+                      {usage.totalCitations || 0} /{" "}
                       {subscription?.features?.citations === -1
-                        ? "∞" // Show infinity for unlimited
-                        : subscription?.features?.citations || 10} {/* Usage limit */}
+                        ? "∞"
+                        : subscription?.features?.citations || 10}
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2"> {/* Progress bar background */}
+                  <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full ${
                         (usage.totalCitations || 0) /
                           (subscription?.features?.citations || 10) >
                         0.8
-                          ? "bg-red-500" // Red for high usage (>80%)
+                          ? "bg-red-500"
                           : (usage.totalCitations || 0) /
                               (subscription?.features?.citations || 10) >
                             0.6
-                          ? "bg-yellow-500" // Yellow for medium usage (>60%)
-                          : "bg-green-500" // Green for low usage
+                          ? "bg-yellow-500"
+                          : "bg-green-500"
                       }`}
                       style={{
                         width: `${Math.min(
@@ -434,14 +410,13 @@ const Dashboard: React.FC = () => {
                             (subscription?.features?.citations || 10)) *
                             100,
                           100
-                        )}%`, // Calculate progress bar width
+                        )}%`,
                       }}
                     ></div>
                   </div>
                 </div>
               </>
             ) : (
-              {/* Loading state for usage data */}
               <div className="text-center py-4 text-gray-500">
                 <p>Loading usage data...</p>
               </div>
@@ -449,61 +424,58 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Subscription Status */}
-        <div className="card"> {/* Subscription status card */}
-          <h2 className="text-lg font-semibold text-gray-900 mb-4"> {/* Section title */}
+        <div className="card">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
             Subscription
           </h2>
-          <div className="space-y-4"> {/* Subscription details container */}
-            {subscription ? ( {/* Show subscription data if available */}
+          <div className="space-y-4">
+            {subscription ? (
               <>
-                {/* Current Plan */}
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Current Plan</span> {/* Label */}
-                  <span className="font-medium text-gray-900 capitalize"> {/* Plan name */}
+                  <span className="text-gray-600">Current Plan</span>
+                  <span className="font-medium text-gray-900 capitalize">
                     {subscription.plan || "Free"}
                   </span>
                 </div>
-                {/* Subscription Status */}
+
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Status</span> {/* Label */}
+                  <span className="text-gray-600">Status</span>
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${
                       subscription.status === "active"
-                        ? "bg-green-100 text-green-800" // Green for active
+                        ? "bg-green-100 text-green-800"
                         : subscription.status === "incomplete"
-                        ? "bg-yellow-100 text-yellow-800" // Yellow for incomplete
-                        : "bg-gray-100 text-gray-800" // Gray for other statuses
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    {subscription.status || "Active"} {/* Status text */}
+                    {subscription.status || "Active"}
                   </span>
                 </div>
-                {/* Next Billing Date */}
-                {subscription.currentPeriodEnd && ( {/* Only show if billing date exists */}
+
+                {subscription.currentPeriodEnd && (
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-600">Next billing</span> {/* Label */}
-                    <span className="text-gray-900"> {/* Billing date */}
+                    <span className="text-gray-600">Next billing</span>
+                    <span className="text-gray-900">
                       {new Date(
                         subscription.currentPeriodEnd
                       ).toLocaleDateString()}
                     </span>
                   </div>
                 )}
-                {/* Action Button */}
-                <div className="pt-2"> {/* Button container */}
+
+                <div className="pt-2">
                   <Link
                     to="/pricing"
-                    className="btn-primary w-full text-center block" {/* Full-width button */}
+                    className="btn-primary w-full text-center block"
                   >
                     {subscription.plan === "free"
-                      ? "Upgrade Plan" // Text for free users
-                      : "Manage Subscription"} {/* Text for paid users */}
+                      ? "Upgrade Plan"
+                      : "Manage Subscription"}
                   </Link>
                 </div>
               </>
             ) : (
-              {/* Loading state for subscription data */}
               <div className="text-center py-4 text-gray-500">
                 <p>Loading subscription data...</p>
               </div>
@@ -512,65 +484,63 @@ const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* Recent Activity Section */}
-      <div className="card"> {/* Recent activity card */}
-        <div className="flex items-center justify-between mb-4"> {/* Section header */}
-          <h2 className="text-lg font-semibold text-gray-900"> {/* Section title */}
+      <div className="card">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-gray-900">
             Recent Activity
           </h2>
           <Link
             to="/notes"
-            className="text-sm text-primary-600 hover:text-primary-500" {/* View all link */}
+            className="text-sm text-primary-600 hover:text-primary-500"
           >
             View all
           </Link>
         </div>
 
-        {/* Conditional rendering based on loading and error states */}
-        {!user ? ( {/* Show loading if no user */}
-          <div className="flex items-center justify-center py-8"> {/* Loading container */}
-            <div className="spinner"></div> {/* Loading spinner */}
+        {!user ? (
+          <div className="flex items-center justify-center py-8">
+            <div className="spinner"></div>
           </div>
-        ) : notesLoading ? ( {/* Show loading if notes are loading */}
-          <div className="flex items-center justify-center py-8"> {/* Loading container */}
-            <div className="spinner"></div> {/* Loading spinner */}
+        ) : notesLoading ? (
+          <div className="flex items-center justify-center py-8">
+            <div className="spinner"></div>
           </div>
-        ) : notesError ? ( {/* Show error state if notes failed to load */}
-          <div className="text-center py-8 text-gray-500"> {/* Error container */}
-            <DocumentTextIcon className="w-12 h-12 mx-auto mb-3 text-gray-300" /> {/* Error icon */}
-            <p>Unable to load recent activity</p> {/* Error message */}
-            <p className="text-sm">Please try refreshing the page</p> {/* Error suggestion */}
+        ) : notesError ? (
+          <div className="text-center py-8 text-gray-500">
+            <DocumentTextIcon className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+            <p>Unable to load recent activity</p>
+            <p className="text-sm">Please try refreshing the page</p>
             <button
-              onClick={() => window.location.reload()} {/* Refresh page */}
-              className="mt-3 text-blue-600 hover:text-blue-500 text-sm" {/* Refresh button */}
+              onClick={() => window.location.reload()}
+              className="mt-3 text-blue-600 hover:text-blue-500 text-sm"
             >
               Refresh Page
             </button>
           </div>
-        ) : recentNotes.length > 0 ? ( {/* Show notes if available */}
-          <div className="space-y-4"> {/* Notes list container */}
-            {recentNotes.map((note) => ( {/* Map through recent notes */}
+        ) : recentNotes.length > 0 ? (
+          <div className="space-y-4">
+            {recentNotes.map((note) => (
               <div
-                key={note._id} {/* Unique key for each note */}
-                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition-all duration-200" {/* Note item styling */}
+                key={note._id}
+                className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:shadow-sm transition-all duration-200"
               >
-                <div className="flex items-center flex-1"> {/* Note content layout */}
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3"> {/* Note icon container */}
-                    <DocumentTextIcon className="w-5 h-5 text-blue-600" /> {/* Note icon */}
+                <div className="flex items-center flex-1">
+                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                    <DocumentTextIcon className="w-5 h-5 text-blue-600" />
                   </div>
-                  <div className="flex-1 min-w-0"> {/* Note details container */}
-                    <h3 className="font-medium text-gray-900 truncate"> {/* Note title */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-gray-900 truncate">
                       {note.title}
                     </h3>
-                    <div className="flex items-center text-sm text-gray-500 mt-1"> {/* Note metadata */}
-                      <ClockIcon className="w-4 h-4 mr-1" /> {/* Time icon */}
-                      <span> {/* Last updated date */}
+                    <div className="flex items-center text-sm text-gray-500 mt-1">
+                      <ClockIcon className="w-4 h-4 mr-1" />
+                      <span>
                         {new Date(note.updatedAt).toLocaleDateString()}
                       </span>
-                      {note.subject && ( {/* Show subject if available */}
+                      {note.subject && (
                         <>
-                          <span className="mx-2">•</span> {/* Separator */}
-                          <span className="bg-gray-100 px-2 py-1 rounded text-xs"> {/* Subject badge */}
+                          <span className="mx-2">•</span>
+                          <span className="bg-gray-100 px-2 py-1 rounded text-xs">
                             {note.subject}
                           </span>
                         </>
@@ -579,8 +549,8 @@ const Dashboard: React.FC = () => {
                   </div>
                 </div>
                 <Link
-                  to={`/notes/${note._id}`} {/* Link to note detail */}
-                  className="text-blue-600 hover:text-blue-500 text-sm font-medium" {/* View link styling */}
+                  to={`/notes/${note._id}`}
+                  className="text-blue-600 hover:text-blue-500 text-sm font-medium"
                 >
                   View
                 </Link>
@@ -588,34 +558,32 @@ const Dashboard: React.FC = () => {
             ))}
           </div>
         ) : (
-          {/* Empty state when no notes exist */}
-          <div className="text-center py-8 text-gray-500"> {/* Empty state container */}
-            <DocumentTextIcon className="w-12 h-12 mx-auto mb-3 text-gray-300" /> {/* Empty state icon */}
-            <p>No recent activity</p> {/* Empty state message */}
-            <p className="text-sm">Start by creating your first note!</p> {/* Empty state suggestion */}
+          <div className="text-center py-8 text-gray-500">
+            <DocumentTextIcon className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+            <p>No recent activity</p>
+            <p className="text-sm">Start by creating your first note!</p>
             <Link
-              to="/notes/new" {/* Link to create new note */}
-              className="inline-flex items-center mt-3 text-blue-600 hover:text-blue-500" {/* Create note link */}
+              to="/notes/new"
+              className="inline-flex items-center mt-3 text-blue-600 hover:text-blue-500"
             >
-              <PlusIcon className="w-4 h-4 mr-1" /> {/* Plus icon */}
+              <PlusIcon className="w-4 h-4 mr-1" />
               Create Note
             </Link>
           </div>
         )}
       </div>
 
-      {/* University Information Section - Only shown if user has university data */}
-      {user?.university && ( {/* Only show if user has university information */}
-        <div className="card bg-blue-50 border-blue-200"> {/* University info card */}
-          <div className="flex items-center"> {/* University info layout */}
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4"> {/* University icon container */}
-              <AcademicCapIcon className="w-5 h-5 text-blue-600" /> {/* University icon */}
+      {user?.university && (
+        <div className="card bg-blue-50 border-blue-200">
+          <div className="flex items-center">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+              <AcademicCapIcon className="w-5 h-5 text-blue-600" />
             </div>
-            <div> {/* University text content */}
-              <h3 className="font-medium text-blue-900"> {/* University title */}
+            <div>
+              <h3 className="font-medium text-blue-900">
                 University Partnership
               </h3>
-              <p className="text-sm text-blue-700"> {/* University description */}
+              <p className="text-sm text-blue-700">
                 You're using Noted.AI through {user.university.name}
               </p>
             </div>

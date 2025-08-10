@@ -6,30 +6,30 @@ import { toast } from "react-hot-toast";
 // Interface defining the structure of a Notification object
 // Contains all notification-related data including type, content, and status
 interface Notification {
-  id: string; // Unique notification identifier
-  type: "success" | "error" | "warning" | "info"; // Type of notification for styling and behavior
-  title: string; // Notification title/heading
-  message: string; // Main notification message content
-  timestamp: Date; // When the notification was created
-  read: boolean; // Whether the notification has been read by the user
+  id: string;
+  type: "success" | "error" | "warning" | "info";
+  title: string;
+  message: string;
+  timestamp: Date;
+  read: boolean;
   action?: {
-    label: string; // Text for the action button (optional)
-    url: string; // URL to navigate to when action is clicked (optional)
+    label: string;
+    url: string;
   };
 }
 
 // Interface defining the structure of the NotificationContext
 // Contains all notification-related functions and state
 interface NotificationContextType {
-  notifications: Notification[]; // Array of all notifications
-  unreadCount: number; // Count of unread notifications
+  notifications: Notification[];
+  unreadCount: number;
   addNotification: (
     notification: Omit<Notification, "id" | "timestamp" | "read">
-  ) => void; // Function to add new notification
-  markAsRead: (id: string) => void; // Function to mark a specific notification as read
-  markAllAsRead: () => void; // Function to mark all notifications as read
-  removeNotification: (id: string) => void; // Function to remove a specific notification
-  clearAll: () => void; // Function to clear all notifications
+  ) => void;
+  markAsRead: (id: string) => void;
+  markAllAsRead: () => void;
+  removeNotification: (id: string) => void;
+  clearAll: () => void;
 }
 
 // Create the notification context with undefined as default value
@@ -51,25 +51,25 @@ export const useNotifications = () => {
 
 // Interface for NotificationProvider component props
 interface NotificationProviderProps {
-  children: React.ReactNode; // React children to be wrapped by the provider
+  children: React.ReactNode;
 }
 
 // NotificationProvider component that wraps the app and provides notification context
 export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
 }) => {
-  // State to store all notifications
+ 
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  // Load notifications from localStorage on component mount
-  // This ensures notifications persist across browser sessions
+ 
+ 
   useEffect(() => {
-    const savedNotifications = localStorage.getItem("notifications"); // Get saved notifications from localStorage
+    const savedNotifications = localStorage.getItem("notifications");
     if (savedNotifications) {
       try {
-        // Parse the JSON string back to an array
+       
         const parsed = JSON.parse(savedNotifications);
-        // Convert timestamp strings back to Date objects
+       
         setNotifications(
           parsed.map((n: any) => ({
             ...n,
@@ -77,95 +77,95 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
           }))
         );
       } catch (error) {
-        // Log error if parsing fails
+       
         console.error("Failed to load notifications:", error);
       }
     }
   }, []);
 
-  // Save notifications to localStorage whenever they change
-  // This ensures notifications are persisted when the component updates
+ 
+ 
   useEffect(() => {
     localStorage.setItem("notifications", JSON.stringify(notifications));
   }, [notifications]);
 
-  // Calculate the number of unread notifications
+ 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  // Function to add a new notification
-  // Takes notification data without id, timestamp, and read status (these are auto-generated)
+ 
+ 
   const addNotification = (
     notification: Omit<Notification, "id" | "timestamp" | "read">
   ) => {
-    // Create new notification with auto-generated fields
+   
     const newNotification: Notification = {
       ...notification,
-      id: Date.now().toString(), // Use current timestamp as unique ID
-      timestamp: new Date(), // Set current timestamp
-      read: false, // Mark as unread by default
+      id: Date.now().toString(),
+      timestamp: new Date(),
+      read: false,
     };
 
-    // Add new notification to the beginning of the array (most recent first)
+   
     setNotifications((prev) => [newNotification, ...prev]);
 
-    // Show toast notification based on type
+   
     switch (notification.type) {
       case "success":
-        // Show green success toast
+       
         toast.success(notification.message);
         break;
       case "error":
-        // Show red error toast
+       
         toast.error(notification.message);
         break;
       case "warning":
-        // Show yellow warning toast with custom styling
+       
         toast(notification.message, {
           icon: "⚠️",
           style: {
-            background: "#fef3c7", // Light yellow background
-            color: "#92400e", // Dark yellow text
+            background: "#fef3c7",
+            color: "#92400e",
           },
         });
         break;
       case "info":
-        // Show blue info toast with custom styling
+       
         toast(notification.message, {
           icon: "ℹ️",
           style: {
-            background: "#dbeafe", // Light blue background
-            color: "#1e40af", // Dark blue text
+            background: "#dbeafe",
+            color: "#1e40af",
           },
         });
         break;
     }
   };
 
-  // Function to mark a specific notification as read
+ 
   const markAsRead = (id: string) => {
     setNotifications(
-      (prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)) // Update only the matching notification
+      (prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     );
   };
 
-  // Function to mark all notifications as read
+ 
   const markAllAsRead = () => {
     setNotifications(
-      (prev) => prev.map((n) => ({ ...n, read: true })) // Update all notifications to read
+      (prev) => prev.map((n) => ({ ...n, read: true }))
     );
   };
 
-  // Function to remove a specific notification
+ 
   const removeNotification = (id: string) => {
-    setNotifications((prev) => prev.filter((n) => n.id !== id)); // Remove notification with matching ID
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
   };
 
-  // Function to clear all notifications
+ 
   const clearAll = () => {
-    setNotifications([]); // Set notifications to empty array
+    setNotifications([]);
   };
 
-  // Create the context value object with all notification functions and state
+ 
   const value: NotificationContextType = {
     notifications,
     unreadCount,
@@ -176,7 +176,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
     clearAll,
   };
 
-  // Return the NotificationContext.Provider with the value and children
+ 
   return (
     <NotificationContext.Provider value={value}>
       {children}
