@@ -20,7 +20,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        {" "}
         {/* Full screen loading container */}
         <div className="spinner"></div> {/* Loading spinner component */}
       </div>
@@ -29,17 +28,12 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   // If user is not authenticated, redirect to login page
   if (!user) {
+    // Redirect to login with replace to prevent back navigation
     return <Navigate to="/login" replace />;
-    {
-      /* Redirect to login with replace to prevent back navigation */
-    }
   }
 
   // If user is authenticated, render the protected children
   return <>{children}</>;
-  {
-    /* Render the wrapped content */
-  }
 };
 
 // Export the ProtectedRoute component as default
