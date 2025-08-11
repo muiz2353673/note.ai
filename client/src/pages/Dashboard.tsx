@@ -39,9 +39,11 @@ const Dashboard: React.FC = () => {
 
   const { subscription, usage, loading } = useSubscription();
 
-  console.log("Dashboard - User:", user);
-  console.log("Dashboard - Subscription:", subscription);
-  console.log("Dashboard - Usage:", usage);
+  if (process.env.NODE_ENV === "development") {
+    console.log("Dashboard - User:", user);
+    console.log("Dashboard - Subscription:", subscription);
+    console.log("Dashboard - Usage:", usage);
+  }
 
   const [notesLoading, setNotesLoading] = useState(true);
   const [recentNotes, setRecentNotes] = useState<Note[]>([]);
@@ -52,10 +54,14 @@ const Dashboard: React.FC = () => {
       try {
         setNotesLoading(true);
         setNotesError(false);
-        console.log("Fetching recent notes...");
+        if (process.env.NODE_ENV === "development") {
+          console.log("Fetching recent notes...");
+        }
 
         const response = await axios.get("/api/notes?limit=5");
-        console.log("Recent notes response:", response.data);
+        if (process.env.NODE_ENV === "development") {
+          console.log("Recent notes response:", response.data);
+        }
         setRecentNotes(response.data.notes || []);
       } catch (error) {
         console.error("Failed to fetch recent notes:", error);
@@ -110,9 +116,11 @@ const Dashboard: React.FC = () => {
     },
   ];
 
-  console.log("Dashboard - User usage:", user?.usage);
-  console.log("Dashboard - Context usage:", usage);
-  console.log("Dashboard - Context subscription:", subscription);
+  if (process.env.NODE_ENV === "development") {
+    console.log("Dashboard - User usage:", user?.usage);
+    console.log("Dashboard - Context usage:", usage);
+    console.log("Dashboard - Context subscription:", subscription);
+  }
 
   const quickActions = [
     {

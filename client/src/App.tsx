@@ -27,157 +27,138 @@ import Pricing from "./pages/Pricing";
 import UniversityPartnership from "./pages/UniversityPartnership";
 // Import protected route wrapper for authenticated-only pages
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+// Import Error Boundary for graceful error handling
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Main App component that handles routing and authentication state
 const App: React.FC = () => {
- 
   const { user, loading } = useAuth();
 
- 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="spinner"></div>
-       
       </div>
     );
   }
 
- 
   if (!user) {
     return (
       <Routes>
-       
         <Route path="/" element={<LandingPage />} />
-       
+
         <Route path="/login" element={<Login />} />
-       
+
         <Route path="/register" element={<Register />} />
-       
+
         <Route path="/verify-email" element={<VerifyEmail />} />
-       
+
         <Route path="/forgot-password" element={<ForgotPassword />} />
-       
+
         <Route path="/reset-password" element={<ResetPassword />} />
-       
+
         <Route path="/pricing" element={<Pricing />} />
-       
+
         <Route
           path="/university-partnership"
           element={<UniversityPartnership />}
         />
-       
-       
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
   }
 
- 
   return (
-    <div className="min-h-screen bg-gray-50">
-     
-      <Navbar />
-     
-      <div className="flex">
-       
-        <Sidebar />
-       
-        <main className="flex-1 p-6">
-         
-          <Routes>
-           
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            
-           
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                 
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/notes"
-              element={
-                <ProtectedRoute>
-                  <Notes />
-                 
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/notes/new"
-              element={
-                <ProtectedRoute>
-                  <NoteEditor />
-                 
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/notes/:id"
-              element={
-                <ProtectedRoute>
-                  <NoteEditor />
-                 
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/ai-features"
-              element={
-                <ProtectedRoute>
-                  <AIFeatures />
-                 
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/flashcards"
-              element={
-                <ProtectedRoute>
-                  <Flashcards />
-                 
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/citations"
-              element={
-                <ProtectedRoute>
-                  <Citations />
-                 
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                 
-                </ProtectedRoute>
-              }
-            />
-            
-           
-            <Route path="/pricing" element={<Pricing />} />
-           
-            <Route
-              path="/university-partnership"
-              element={<UniversityPartnership />}
-            />
-           
-            
-           
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-        </main>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gray-50">
+        <Navbar />
+
+        <div className="flex">
+          <Sidebar />
+
+          <main className="flex-1 p-6">
+            <Routes>
+              <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/notes"
+                element={
+                  <ProtectedRoute>
+                    <Notes />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/notes/new"
+                element={
+                  <ProtectedRoute>
+                    <NoteEditor />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/notes/:id"
+                element={
+                  <ProtectedRoute>
+                    <NoteEditor />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/ai-features"
+                element={
+                  <ProtectedRoute>
+                    <AIFeatures />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/flashcards"
+                element={
+                  <ProtectedRoute>
+                    <Flashcards />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/citations"
+                element={
+                  <ProtectedRoute>
+                    <Citations />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route path="/pricing" element={<Pricing />} />
+
+              <Route
+                path="/university-partnership"
+                element={<UniversityPartnership />}
+              />
+
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </Routes>
+          </main>
+        </div>
       </div>
-    </div>
+    </ErrorBoundary>
   );
 };
 
