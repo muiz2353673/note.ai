@@ -1,4 +1,4 @@
-# Noted.AI - AI-Powered Academic Assistan
+# Noted.AI - AI-Powered Academic Assistant
 
 Noted.AI is a comprehensive academic assistant platform that leverages AI to help students excel in their studies. Our platform provides intelligent note summarization, flashcard generation, assignment assistance, and citation tools.
 
