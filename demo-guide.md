@@ -4,6 +4,16 @@
 
 Your Noted.AI app is running and ready for demonstration! Follow these steps to showcase all the working features:
 
+> **🎮 NEW: Enhanced Demo Features Available!**
+> 
+> Your Noted.AI application now includes advanced demo functionality:
+> - **Demo Mode Toggle** (bottom-right) - Load sample data and toggle demo mode
+> - **Interactive Tour** (bottom-right) - Guided feature walkthrough for new users
+> - **Demo Analytics** (bottom-left) - Live simulated user metrics and statistics
+> - **Demo Credentials** (top-right) - Easy access to test accounts
+> 
+> See `DEMO_FEATURES_GUIDE.md` for complete documentation of all demo features.
+
 ### 1. Access the Application
 - **Open your browser** and go to: **http://localhost:3000**
 - You'll see the beautiful landing page with feature highlights
@@ -74,6 +84,21 @@ Your Noted.AI app is running and ready for demonstration! Follow these steps to 
 - **Resize your browser** or open on mobile
 - Notice how the UI adapts beautifully
 - Test navigation and features on smaller screens
+
+## 🎮 Quick Demo Controls Reference
+
+### **New Demo Features** (Available when logged in)
+- **Demo Mode** (bottom-right): Load sample data, toggle demo mode
+- **Take Tour** (bottom-right): Interactive feature walkthrough
+- **Analytics** (bottom-left): Live user metrics and statistics
+- **Demo Accounts** (top-right): Easy access to test credentials
+
+### **Demo Workflow**
+1. **Login** with demo credentials from "Demo Accounts" panel
+2. **Enable Demo Mode** and load sample data
+3. **Take the Tour** to learn about features
+4. **Explore Analytics** to see user engagement
+5. **Test AI Features** with sample content
 
 ## 🎯 Demo Script for Presentations
 

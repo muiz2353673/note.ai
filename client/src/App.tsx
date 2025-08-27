@@ -29,6 +29,11 @@ import UniversityPartnership from "./pages/UniversityPartnership";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 // Import Error Boundary for graceful error handling
 import ErrorBoundary from "./components/ErrorBoundary";
+// Import demo components for demonstration features
+import DemoMode from "./components/DemoMode";
+import DemoTour from "./components/DemoTour";
+import DemoAnalytics from "./components/DemoAnalytics";
+import DemoCredentials from "./components/DemoCredentials";
 
 // Main App component that handles routing and authentication state
 const App: React.FC = () => {
@@ -78,6 +83,11 @@ const App: React.FC = () => {
           <Sidebar />
 
           <main className="flex-1 p-6">
+            {/* Demo Components - Only show when user is authenticated */}
+            <DemoMode />
+            <DemoTour />
+            <DemoAnalytics />
+            <DemoCredentials />
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
