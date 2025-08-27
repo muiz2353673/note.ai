@@ -202,7 +202,7 @@ const DemoAnalytics: React.FC = () => {
 
             <div className="bg-yellow-50 p-3 rounded-lg">
               <div className="flex items-center gap-2 mb-1">
-                <FaClock className="w-4 h-4 text-yellow-500" />
+                <span className="text-yellow-500">⏰</span>
                 <span className="text-xs font-medium text-yellow-700">
                   Avg Session
                 </span>
@@ -231,7 +231,7 @@ const DemoAnalytics: React.FC = () => {
                 <div className="text-lg font-bold text-yellow-600">
                   {analytics.userSatisfaction}
                 </div>
-                <FaStar className="w-4 h-4 text-yellow-500" />
+                <span className="text-yellow-500">⭐</span>
               </div>
             </div>
           </div>
