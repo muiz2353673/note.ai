@@ -119,7 +119,7 @@ const DemoTour: React.FC = () => {
         onClick={startTour}
         className="fixed bottom-20 right-4 z-40 flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
       >
-        <FaPlay className="w-4 h-4" />
+        <span>▶️</span>
         <span className="font-medium">Take Tour</span>
       </button>
     );
@@ -159,7 +159,7 @@ const DemoTour: React.FC = () => {
               onClick={endTour}
               className="text-gray-400 hover:text-gray-600 transition-colors"
             >
-              <FaTimes className="w-5 h-5" />
+              <span>✕</span>
             </button>
           </div>
 
@@ -198,7 +198,7 @@ const DemoTour: React.FC = () => {
                   disabled={currentStep === 0}
                   className="p-2 text-gray-400 hover:text-gray-600 disabled:text-gray-300 disabled:cursor-not-allowed transition-colors"
                 >
-                  <FaChevronLeft className="w-4 h-4" />
+                  <span>◀</span>
                 </button>
 
                 <button
@@ -208,12 +208,12 @@ const DemoTour: React.FC = () => {
                   {currentStep === tourSteps.length - 1 ? (
                     <>
                       <span>Finish</span>
-                      <FaTimes className="w-4 h-4" />
+                      <span>✕</span>
                     </>
                   ) : (
                     <>
                       <span>Next</span>
-                      <FaChevronRight className="w-4 h-4" />
+                      <span>▶</span>
                     </>
                   )}
                 </button>
