@@ -9,18 +9,18 @@ const demoUsers = [
   {
     name: "Student Demo",
     email: "student@demo.noted.ai",
-    password: "demo123"
+    password: "demo123",
   },
   {
-    name: "Premium Demo", 
+    name: "Premium Demo",
     email: "premium@demo.noted.ai",
-    password: "demo123"
+    password: "demo123",
   },
   {
     name: "University Demo",
-    email: "admin@demo.noted.ai", 
-    password: "demo123"
-  }
+    email: "admin@demo.noted.ai",
+    password: "demo123",
+  },
 ];
 
 let authToken = null;
@@ -66,17 +66,19 @@ const testDemoFeatures = async () => {
   // Test 2: Demo User Login
   console.log("\n2. 👤 Testing Demo User Login...");
   const testUser = demoUsers[0]; // Use student demo account
-  
+
   const loginResponse = await makeAuthRequest("POST", "/auth/login", {
     email: testUser.email,
-    password: testUser.password
+    password: testUser.password,
   });
 
   if (loginResponse.success) {
     authToken = loginResponse.data.token;
     console.log(`   ✅ Successfully logged in as ${testUser.name}`);
   } else {
-    console.log("   ⚠️  Demo user login failed - you may need to create demo accounts");
+    console.log(
+      "   ⚠️  Demo user login failed - you may need to create demo accounts"
+    );
     console.log("   💡 Try registering with these credentials first:");
     console.log(`      Email: ${testUser.email}`);
     console.log(`      Password: ${testUser.password}`);
@@ -87,7 +89,9 @@ const testDemoFeatures = async () => {
   console.log("\n3. 📝 Testing Notes API...");
   const notesResponse = await makeAuthRequest("GET", "/notes");
   if (notesResponse.success) {
-    console.log(`   ✅ Notes API working - Found ${notesResponse.data.length} notes`);
+    console.log(
+      `   ✅ Notes API working - Found ${notesResponse.data.length} notes`
+    );
   } else {
     console.log("   ❌ Notes API failed");
   }
@@ -97,8 +101,9 @@ const testDemoFeatures = async () => {
   const demoNote = {
     title: "Demo Test Note",
     subject: "Demo",
-    content: "This is a test note created by the demo testing script. It contains sample content to verify that the note creation functionality is working properly.",
-    tags: ["demo", "test", "automated"]
+    content:
+      "This is a test note created by the demo testing script. It contains sample content to verify that the note creation functionality is working properly.",
+    tags: ["demo", "test", "automated"],
   };
 
   const createNoteResponse = await makeAuthRequest("POST", "/notes", demoNote);
@@ -111,7 +116,8 @@ const testDemoFeatures = async () => {
   // Test 5: AI Features (if API key is configured)
   console.log("\n5. 🤖 Testing AI Features...");
   const aiTestResponse = await makeAuthRequest("POST", "/ai/summarize", {
-    content: "This is a test content for AI summarization. The AI should be able to process this text and generate a summary if the OpenAI API key is properly configured."
+    content:
+      "This is a test content for AI summarization. The AI should be able to process this text and generate a summary if the OpenAI API key is properly configured.",
   });
 
   if (aiTestResponse.success) {
@@ -126,7 +132,9 @@ const testDemoFeatures = async () => {
   console.log("\n6. 👤 Testing User Profile...");
   const profileResponse = await makeAuthRequest("GET", "/auth/profile");
   if (profileResponse.success) {
-    console.log(`   ✅ Profile API working - User: ${profileResponse.data.firstName} ${profileResponse.data.lastName}`);
+    console.log(
+      `   ✅ Profile API working - User: ${profileResponse.data.firstName} ${profileResponse.data.lastName}`
+    );
   } else {
     console.log("   ❌ Profile API failed");
   }
@@ -138,7 +146,7 @@ const testDemoFeatures = async () => {
   console.log("✅ Notes Management");
   console.log("✅ AI Features (with API key)");
   console.log("✅ User Profile");
-  
+
   console.log("\n🚀 Your Noted.AI demo is ready!");
   console.log("📖 Check DEMO_FEATURES_GUIDE.md for complete demo instructions");
   console.log("🌐 Visit http://localhost:3000 to start your demo");

@@ -5,6 +5,7 @@ Noted.AI is a comprehensive academic assistant platform that leverages AI to hel
 ## 🚀 Features
 
 ### Core Features
+
 - **AI Note Summarization**: Transform lengthy notes into concise, organized summaries
 - **Flashcard Generation**: Automatically create study flashcards from your notes with interactive study mode
 - **Smart Note Editor**: Rich text editor with AI assistance for note creation and enhancement
@@ -13,6 +14,7 @@ Noted.AI is a comprehensive academic assistant platform that leverages AI to hel
 - **Study Progress Tracking**: Monitor your learning progress with flashcards and study sessions
 
 ### Premium Features
+
 - **Advanced AI Models**: Access to GPT-4 and specialized academic models
 - **Unlimited Processing**: No limits on note processing or flashcard generation
 - **Priority Support**: Dedicated customer support
@@ -20,6 +22,7 @@ Noted.AI is a comprehensive academic assistant platform that leverages AI to hel
 - **Advanced Analytics**: Detailed insights into study patterns and performance
 
 ### Freemium Model
+
 - **Free Tier**: Basic features with limited usage (5 notes, 10 flashcards per month)
 - **Student Premium**: Enhanced features for individual students ($9.99/month)
 - **University Partnership**: Custom solutions for educational institutions
@@ -27,6 +30,7 @@ Noted.AI is a comprehensive academic assistant platform that leverages AI to hel
 ## 🛠️ Tech Stack
 
 ### Backend
+
 - **Node.js** with Express.js
 - **MongoDB** for data storage
 - **OpenAI API** for AI features
@@ -34,6 +38,7 @@ Noted.AI is a comprehensive academic assistant platform that leverages AI to hel
 - **JWT** for authentication
 
 ### Frontend
+
 - **React.js** with TypeScript
 - **Tailwind CSS** for styling
 - **React Router** for navigation
@@ -42,20 +47,24 @@ Noted.AI is a comprehensive academic assistant platform that leverages AI to hel
 ## 📦 Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/your-username/noted-ai.git
    cd noted-ai
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm run install-all
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    ```
+
    Fill in your API keys and configuration in the `.env` file.
 
 4. **Start the development server**
@@ -95,36 +104,54 @@ SMTP_PASS=your_smtp_password
 ## 🚀 Usage
 
 ### For Students
+
 1. Sign up for a free account
 2. Upload or paste your notes
 3. Use AI features to summarize, create flashcards, or get assignment help
 4. Upgrade to premium for unlimited access
 
 ### For Universities
+
 1. Contact us for partnership opportunities
 2. Get custom integration with your LMS
 3. Access analytics and student performance data
 
+## 🎯 Demo Features
+
+Noted.AI includes comprehensive demo functionality for presentations and testing:
+
+- **🎮 Demo Mode**: Toggle demo/production modes with sample data
+- **🗺️ Interactive Tour**: Guided walkthrough for new users
+- **📊 Live Analytics**: Simulated user metrics and engagement data
+- **👤 Demo Credentials**: Easy access to test accounts
+- **📝 Sample Content**: Pre-loaded academic notes across multiple subjects
+
+See `DEMO_FEATURES_GUIDE.md` for complete demo instructions and scripts.
+
 ## 📱 API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `POST /api/auth/refresh` - Refresh token
 
 ### Notes
+
 - `POST /api/notes` - Create new note
 - `GET /api/notes` - Get user notes
 - `PUT /api/notes/:id` - Update note
 - `DELETE /api/notes/:id` - Delete note
 
 ### AI Features
+
 - `POST /api/ai/summarize` - Summarize notes
 - `POST /api/ai/flashcards` - Generate flashcards
 - `POST /api/ai/assignment` - Get assignment help
 - `POST /api/ai/cite` - Generate citations
 
 ### Subscriptions
+
 - `POST /api/subscriptions/create` - Create subscription
 - `GET /api/subscriptions/status` - Get subscription status
 - `POST /api/subscriptions/cancel` - Cancel subscription
@@ -150,6 +177,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🎯 Roadmap
 
 ### Completed ✅
+
 - [x] Core note-taking functionality with AI assistance
 - [x] Interactive flashcard generation and study mode
 - [x] Citation generator with multiple format support
@@ -171,6 +199,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [x] Email notifications and user management
 
 ### Planned 📋
+
 - [ ] Mobile app (iOS/Android)
 - [ ] Integration with popular LMS platforms (Canvas, Blackboard, Moodle)
 - [ ] Advanced analytics dashboard
