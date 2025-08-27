@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-// Using text icons instead of react-icons to avoid TypeScript issues
+import React, { useState, useEffect } from 'react';
 
 // Interface for tour step
 interface TourStep {
@@ -7,57 +6,52 @@ interface TourStep {
   title: string;
   description: string;
   target: string;
-  position: "top" | "bottom" | "left" | "right";
+  position: 'top' | 'bottom' | 'left' | 'right';
   icon: React.ReactNode;
 }
 
 // Tour steps configuration
 const tourSteps: TourStep[] = [
   {
-    id: "welcome",
-    title: "Welcome to Noted.AI!",
-    description:
-      "Your AI-powered academic assistant. Let me show you around the key features that will transform your study experience.",
-    target: "body",
-    position: "top",
-    icon: <span>🎓</span>,
+    id: 'welcome',
+    title: 'Welcome to Noted.AI!',
+    description: 'Your AI-powered academic assistant. Let me show you around the key features that will transform your study experience.',
+    target: 'body',
+    position: 'top',
+    icon: <span>🎓</span>
   },
   {
-    id: "dashboard",
-    title: "Dashboard Overview",
-    description:
-      "Your personalized dashboard shows your study progress, recent notes, and quick access to all features. Track your learning journey here.",
-    target: ".dashboard-content",
-    position: "bottom",
-    icon: <FaPlay className="w-5 h-5" />,
+    id: 'dashboard',
+    title: 'Dashboard Overview',
+    description: 'Your personalized dashboard shows your study progress, recent notes, and quick access to all features. Track your learning journey here.',
+    target: '.dashboard-content',
+    position: 'bottom',
+    icon: <span>▶️</span>
   },
   {
-    id: "notes",
-    title: "Smart Note Management",
-    description:
-      "Create, organize, and search through your notes with intelligent tagging and categorization. Your notes are automatically organized by subject.",
-    target: ".notes-section",
-    position: "right",
-    icon: <span>💡</span>,
+    id: 'notes',
+    title: 'Smart Note Management',
+    description: 'Create, organize, and search through your notes with intelligent tagging and categorization. Your notes are automatically organized by subject.',
+    target: '.notes-section',
+    position: 'right',
+    icon: <span>💡</span>
   },
   {
-    id: "ai-features",
-    title: "AI-Powered Features",
-    description:
-      "Transform your notes with AI summarization, generate study flashcards, and create perfect citations. Let AI enhance your learning.",
-    target: ".ai-features",
-    position: "left",
-    icon: <span>🤖</span>,
+    id: 'ai-features',
+    title: 'AI-Powered Features',
+    description: 'Transform your notes with AI summarization, generate study flashcards, and create perfect citations. Let AI enhance your learning.',
+    target: '.ai-features',
+    position: 'left',
+    icon: <span>🤖</span>
   },
   {
-    id: "subscription",
-    title: "Premium Features",
-    description:
-      "Upgrade to unlock unlimited AI features, advanced analytics, and priority support. Choose the plan that fits your study needs.",
-    target: ".subscription-section",
-    position: "top",
-    icon: <FaCreditCard className="w-5 h-5" />,
-  },
+    id: 'subscription',
+    title: 'Premium Features',
+    description: 'Upgrade to unlock unlimited AI features, advanced analytics, and priority support. Choose the plan that fits your study needs.',
+    target: '.subscription-section',
+    position: 'top',
+    icon: <span>💳</span>
+  }
 ];
 
 const DemoTour: React.FC = () => {
@@ -67,7 +61,7 @@ const DemoTour: React.FC = () => {
 
   // Check if user has seen the tour before
   useEffect(() => {
-    const hasSeenTour = localStorage.getItem("hasSeenDemoTour");
+    const hasSeenTour = localStorage.getItem('hasSeenDemoTour');
     if (!hasSeenTour) {
       setShowTour(true);
     }
@@ -77,7 +71,7 @@ const DemoTour: React.FC = () => {
   const startTour = () => {
     setIsActive(true);
     setCurrentStep(0);
-    localStorage.setItem("hasSeenDemoTour", "true");
+    localStorage.setItem('hasSeenDemoTour', 'true');
   };
 
   // End the tour
@@ -132,10 +126,7 @@ const DemoTour: React.FC = () => {
   return (
     <>
       {/* Overlay */}
-      <div
-        className="fixed inset-0 bg-black bg-opacity-50 z-50"
-        onClick={endTour}
-      ></div>
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50" onClick={endTour}></div>
 
       {/* Tour Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -223,9 +214,7 @@ const DemoTour: React.FC = () => {
 
           {/* Feature Highlights */}
           <div className="bg-gray-50 p-4 rounded-b-lg">
-            <h4 className="text-sm font-medium text-gray-700 mb-2">
-              Quick Tips:
-            </h4>
+            <h4 className="text-sm font-medium text-gray-700 mb-2">Quick Tips:</h4>
             <div className="space-y-1 text-xs text-gray-600">
               {currentStep === 0 && (
                 <>

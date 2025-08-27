@@ -9,6 +9,13 @@ import {
   ArrowRightIcon,
   PlayIcon,
 } from "@heroicons/react/24/outline";
+// Import demo components for landing page
+import DemoMode from "../components/DemoMode";
+import DemoTour from "../components/DemoTour";
+import DemoAnalytics from "../components/DemoAnalytics";
+import DemoCredentials from "../components/DemoCredentials";
+import { isDevMode } from "../utils/devMode";
+import DevToggle from "../components/DevToggle";
 
 const LandingPage: React.FC = () => {
   const features = [
@@ -114,7 +121,8 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
-     
+      {/* Developer Toggle - Only visible in development */}
+      <DevToggle />
       <nav className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -152,7 +160,6 @@ const LandingPage: React.FC = () => {
         </div>
       </nav>
 
-     
       <section className="gradient-bg text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
@@ -180,7 +187,6 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-     
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -209,7 +215,6 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-     
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -259,7 +264,6 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-     
       <section className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -296,7 +300,6 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-     
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -362,7 +365,6 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-     
       <section className="gradient-bg text-white py-24">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -382,7 +384,6 @@ const LandingPage: React.FC = () => {
         </div>
       </section>
 
-     
       <footer className="bg-gray-900 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
@@ -463,6 +464,16 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
       </footer>
+
+      {/* Demo Components for Landing Page - Only visible in development */}
+      {isDevMode() && (
+        <>
+          <DemoMode />
+          <DemoTour />
+          <DemoAnalytics />
+          <DemoCredentials />
+        </>
+      )}
     </div>
   );
 };

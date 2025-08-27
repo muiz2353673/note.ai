@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // Using text icons instead of react-icons to avoid TypeScript issues
 
 // Interface for analytics data

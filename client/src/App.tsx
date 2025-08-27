@@ -34,6 +34,8 @@ import DemoMode from "./components/DemoMode";
 import DemoTour from "./components/DemoTour";
 import DemoAnalytics from "./components/DemoAnalytics";
 import DemoCredentials from "./components/DemoCredentials";
+import { isDevMode } from "./utils/devMode";
+import DevToggle from "./components/DevToggle";
 
 // Main App component that handles routing and authentication state
 const App: React.FC = () => {
@@ -77,17 +79,23 @@ const App: React.FC = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-gray-50">
+        {/* Developer Toggle - Only visible in development */}
+        <DevToggle />
         <Navbar />
 
         <div className="flex">
           <Sidebar />
 
           <main className="flex-1 p-6">
-            {/* Demo Components - Only show when user is authenticated */}
-            <DemoMode />
-            <DemoTour />
-            <DemoAnalytics />
-            <DemoCredentials />
+            {/* Demo Components - Only show in development mode */}
+            {isDevMode() && (
+              <>
+                <DemoMode />
+                <DemoTour />
+                <DemoAnalytics />
+                <DemoCredentials />
+              </>
+            )}
             <Routes>
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
