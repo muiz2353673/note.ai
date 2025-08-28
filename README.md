@@ -116,18 +116,6 @@ SMTP_PASS=your_smtp_password
 2. Get custom integration with your LMS
 3. Access analytics and student performance data
 
-## 🎯 Demo Features
-
-Noted.AI includes comprehensive demo functionality for presentations and testing:
-
-- **🎮 Demo Mode**: Toggle demo/production modes with sample data
-- **🗺️ Interactive Tour**: Guided walkthrough for new users
-- **📊 Live Analytics**: Simulated user metrics and engagement data
-- **👤 Demo Credentials**: Easy access to test accounts
-- **📝 Sample Content**: Pre-loaded academic notes across multiple subjects
-
-See `DEMO_FEATURES_GUIDE.md` for complete demo instructions and scripts.
-
 ## 📱 API Endpoints
 
 ### Authentication
@@ -207,4 +195,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Voice note processing
 - [ ] Multi-language support
 - [ ] Real-time collaboration features
-- [ ] Advanced AI features (essay writing assistance, plagiarism detection) 
+- [ ] Advanced AI features (essay writing assistance, plagiarism detection)

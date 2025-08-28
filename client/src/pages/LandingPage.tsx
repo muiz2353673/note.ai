@@ -9,13 +9,6 @@ import {
   ArrowRightIcon,
   PlayIcon,
 } from "@heroicons/react/24/outline";
-// Import demo components for landing page
-import DemoMode from "../components/DemoMode";
-import DemoTour from "../components/DemoTour";
-import DemoAnalytics from "../components/DemoAnalytics";
-import DemoCredentials from "../components/DemoCredentials";
-import { isDevMode } from "../utils/devMode";
-import DevToggle from "../components/DevToggle";
 
 const LandingPage: React.FC = () => {
   const features = [
@@ -121,8 +114,6 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Developer Toggle - Only visible in development */}
-      <DevToggle />
       <nav className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -464,16 +455,6 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
       </footer>
-
-      {/* Demo Components for Landing Page - Only visible in development */}
-      {isDevMode() && (
-        <>
-          <DemoMode />
-          <DemoTour />
-          <DemoAnalytics />
-          <DemoCredentials />
-        </>
-      )}
     </div>
   );
 };

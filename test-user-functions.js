@@ -93,7 +93,7 @@ const tests = {
       title: "Test Note",
       content: "This is a test note for testing purposes.",
       subject: "Testing",
-      tags: ["test", "demo"],
+      tags: ["test"],
     };
     const result = await makeAuthRequest("POST", "/notes", noteData);
     if (result.success && result.data.note) {
@@ -128,7 +128,7 @@ const tests = {
     const updateData = {
       title: "Updated Test Note",
       content: "This note has been updated for testing.",
-      tags: ["test", "demo", "updated"],
+      tags: ["test", "updated"],
     };
     const result = await makeAuthRequest("PUT", `/notes/${noteId}`, updateData);
     if (result.success) {
